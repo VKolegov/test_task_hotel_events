@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Infrastructure\Database\Models\Hotel;
+use App\Infrastructure\Database\Models\HotelGuest;
 use App\Infrastructure\Database\Models\HotelRoom;
 use App\Infrastructure\Database\Models\User;
 use Illuminate\Database\Seeder;
@@ -42,5 +43,7 @@ class DatabaseSeeder extends Seeder
                 'hotel_id' => $hotel->id,
             ]);
         }
+
+        HotelGuest::factory(1000)->create();
     }
 }

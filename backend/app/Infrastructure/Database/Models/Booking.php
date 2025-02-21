@@ -39,6 +39,16 @@ class Booking extends Model
         ];
     }
 
+    public function guests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            HotelGuest::class,
+            BookingGuest::class,
+            'booking_id',
+            'guest_id',
+        );
+    }
+
     protected static function newFactory()
     {
         return BookingFactory::new();

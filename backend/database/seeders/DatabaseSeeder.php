@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 use App\Infrastructure\Database\Models\Booking;
+use App\Infrastructure\Database\Models\BookingGuest;
 use App\Infrastructure\Database\Models\Hotel;
 use App\Infrastructure\Database\Models\HotelGuest;
 use App\Infrastructure\Database\Models\HotelRoom;
 use App\Infrastructure\Database\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,7 +22,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $now = now();
 
         $roleId = DB::table('user_roles')->insertGetId([
@@ -46,13 +47,26 @@ class DatabaseSeeder extends Seeder
                 'hotel_id' => $hotel->id,
             ]);
 
-            Booking::factory(100)->create([
+            $bookings = Booking::factory(100)->create([
                 'hotel_id' => $hotel->id,
                 'room_id' => $rooms->random()->id,
                 // TODO: user id random
             ]);
+
+            $attributes = [];
+            foreach ($bookings as $booking) {
+
+                $guestNumber = fake()->numberBetween(1, 5);
+                $randomGuests = $guests->random($guestNumber);
+
+                foreach ($randomGuests as $guest) {
+                    $attributes[] = [
+                        'booking_id' => $booking->id,
+                        'guest_id' => $guest->id,
+                    ];
+                }
+            }
+            BookingGuest::insert($attributes);
         }
-
-
     }
 }

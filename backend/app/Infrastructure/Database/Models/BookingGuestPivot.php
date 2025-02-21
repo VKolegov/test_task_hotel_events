@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $guest_id
  * @mixin \Eloquent
  */
-class BookingGuest extends Pivot
+class BookingGuestPivot extends Pivot
 {
     protected $table = 'bookings_hotel_guests';
 }

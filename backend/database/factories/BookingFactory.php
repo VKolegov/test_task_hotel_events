@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Domain\Hotel\Entities\BookingStatusEnum;
-use App\Infrastructure\Database\Models\Booking;
+use App\Infrastructure\Database\Models\BookingModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookingFactory extends Factory
 {
-    protected $model = Booking::class;
+    protected $model = BookingModel::class;
 
     public function definition()
     {

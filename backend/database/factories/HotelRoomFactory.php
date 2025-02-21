@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Infrastructure\Database\Models\Hotel;
-use App\Infrastructure\Database\Models\HotelRoom;
+use App\Infrastructure\Database\Models\HotelModel;
+use App\Infrastructure\Database\Models\HotelRoomModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HotelRoomFactory extends Factory
 {
-    protected $model = HotelRoom::class;
+    protected $model = HotelRoomModel::class;
 
     /**
      * Define the model's default state.

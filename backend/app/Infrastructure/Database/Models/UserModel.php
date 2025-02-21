@@ -24,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $notifications_count
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class UserModel extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;

@@ -7,7 +7,7 @@ use App\Domain\User\Entities\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Infrastructure\Database\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Infrastructure\Database\Models\UserModel>
  */
 class UserRoleFactory extends Factory
 {

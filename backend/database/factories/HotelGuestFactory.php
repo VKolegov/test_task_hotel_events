@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Infrastructure\Database\Models\HotelGuest;
+use App\Infrastructure\Database\Models\HotelGuestModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HotelGuestFactory extends Factory
 {
 
-    protected $model = HotelGuest::class;
+    protected $model = HotelGuestModel::class;
 
     public function definition()
     {

@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property array $data
  * @mixin \Eloquent
  */
-class EventLogEntry extends Model
+class EventLogEntryModel extends Model
 {
     use HasFactory;
 

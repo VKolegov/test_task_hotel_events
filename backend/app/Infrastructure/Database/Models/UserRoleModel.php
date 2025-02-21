@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $deleted_at
  */
-class UserRole extends Model
+class UserRoleModel extends Model
 {
     protected $table = 'user_roles';
 

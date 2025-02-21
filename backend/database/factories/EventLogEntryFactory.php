@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
-use App\Infrastructure\Database\Models\EventLogEntry;
+use App\Infrastructure\Database\Models\EventLogEntryModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventLogEntryFactory extends Factory
 {
 
-    protected $model = EventLogEntry::class;
+    protected $model = EventLogEntryModel::class;
 
     public function definition()
     {

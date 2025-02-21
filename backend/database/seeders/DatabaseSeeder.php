@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
-use App\Infrastructure\Database\Models\Booking;
-use App\Infrastructure\Database\Models\BookingGuest;
-use App\Infrastructure\Database\Models\EventLogEntry;
-use App\Infrastructure\Database\Models\Hotel;
-use App\Infrastructure\Database\Models\HotelGuest;
-use App\Infrastructure\Database\Models\HotelRoom;
-use App\Infrastructure\Database\Models\User;
+use App\Infrastructure\Database\Models\BookingModel;
+use App\Infrastructure\Database\Models\BookingGuestPivot;
+use App\Infrastructure\Database\Models\EventLogEntryModel;
+use App\Infrastructure\Database\Models\HotelModel;
+use App\Infrastructure\Database\Models\HotelGuestModel;
+use App\Infrastructure\Database\Models\HotelRoomModel;
+use App\Infrastructure\Database\Models\UserModel;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -33,17 +33,17 @@ class DatabaseSeeder extends Seeder
             'updated_at' => $now,
         ]);
 
-        User::factory()->create([
+        UserModel::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'role_id' => $roleId
         ]);
 
 
-        $users = User::factory(20)->create();
+        $users = UserModel::factory(20)->create();
 
         foreach ($users as $user) {
-            EventLogEntry::factory(
+            EventLogEntryModel::factory(
                 fake()->numberBetween(1, 10)
             )->create([
                 'type' => EventLogTypeEnum::AUTHORIZATION,
@@ -55,16 +55,16 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $hotels = Hotel::factory(3)->create();
+        $hotels = HotelModel::factory(3)->create();
 
         foreach ($hotels as $hotel) {
-            $guests = HotelGuest::factory(100)->create();
+            $guests = HotelGuestModel::factory(100)->create();
 
-            $rooms = HotelRoom::factory(100)->create([
+            $rooms = HotelRoomModel::factory(100)->create([
                 'hotel_id' => $hotel->id,
             ]);
 
-            $bookings = Booking::factory(100)->create([
+            $bookings = BookingModel::factory(100)->create([
                 'hotel_id' => $hotel->id,
                 'room_id' => $rooms->random()->id,
                 // TODO: user id random
@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
                     ];
                 }
             }
-            BookingGuest::insert($attributes);
+            BookingGuestPivot::insert($attributes);
         }
     }
 }

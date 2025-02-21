@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use Database\Factories\HotelGuestFactory;
+use Database\Factories\HotelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,28 +11,36 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  *
  * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string $email
+ * @property string $name
+ * @property string $slug
+ * @property string $address
+ * @property float $latitude
+ * @property float $longitude
  * @property string $phone
- * @property string $document_type
- * @property string $document_number
- * @property int|null $user_id
- * @property int|null $updated_by
+ * @property string $city_name
+ * @property string $timezone
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @mixin \Eloquent
  */
-class HotelGuest extends Model
+class HotelModel extends Model
 {
-    use HasFactory;
     use SoftDeletes;
+    use HasFactory;
 
-    protected $table = 'hotel_guests';
+    protected $table = 'hotels';
+
+    protected function casts()
+    {
+        return [
+            'latitude' => 'float',
+            'longitude' => 'float',
+        ];
+    }
 
     protected static function newFactory()
     {
-        return HotelGuestFactory::new();
+        return HotelFactory::new();
     }
 }

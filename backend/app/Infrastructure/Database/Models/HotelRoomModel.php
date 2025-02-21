@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @mixin \Eloquent
  */
-class HotelRoom extends Model
+class HotelRoomModel extends Model
 {
     use SoftDeletes;
     use HasFactory;

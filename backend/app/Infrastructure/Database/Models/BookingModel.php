@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @mixin \Eloquent
  */
-class Booking extends Model
+class BookingModel extends Model
 {
     use SoftDeletes;
     use HasFactory;
@@ -42,8 +42,8 @@ class Booking extends Model
     public function guests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
-            HotelGuest::class,
-            BookingGuest::class,
+            HotelGuestModel::class,
+            BookingGuestPivot::class,
             'booking_id',
             'guest_id',
         );

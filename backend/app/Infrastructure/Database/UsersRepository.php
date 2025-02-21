@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Database;
 
 use App\Domain\User\Entities\User;
-use App\Infrastructure\Database\Models\UserRole;
+use App\Infrastructure\Database\Models\UserRoleModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

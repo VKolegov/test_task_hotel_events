@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Infrastructure\Database\Models\Booking;
 use App\Infrastructure\Database\Models\BookingGuest;
+use App\Infrastructure\Database\Models\EventLogEntry;
 use App\Infrastructure\Database\Models\Hotel;
 use App\Infrastructure\Database\Models\HotelGuest;
 use App\Infrastructure\Database\Models\HotelRoom;
 use App\Infrastructure\Database\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -37,6 +38,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'role_id' => $roleId
         ]);
+
+
+        $users = User::factory(20)->create();
+
+        foreach ($users as $user) {
+            EventLogEntry::factory(
+                fake()->numberBetween(1, 10)
+            )->create([
+                'type' => EventLogTypeEnum::AUTHORIZATION,
+                'user_id' => $user->id,
+                'data' => [
+                    'ip' => fake()->ipv4(),
+                    'user_agent' => fake()->userAgent(),
+                ]
+            ]);
+        }
 
         $hotels = Hotel::factory(3)->create();
 

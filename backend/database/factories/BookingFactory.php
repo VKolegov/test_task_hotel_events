@@ -1,0 +1,27 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Domain\Hotel\Entities\BookingStatusEnum;
+use App\Infrastructure\Database\Models\Booking;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class BookingFactory extends Factory
+{
+    protected $model = Booking::class;
+
+    public function definition()
+    {
+        $checkOut = \Carbon\CarbonImmutable::parse($this->faker->date());
+        $checkIn = $checkOut->subDays(
+            $this->faker->numberBetween(1, 14)
+        );
+
+        return [
+            'check_in' => $checkIn->format('Y-m-d'),
+            'check_out' => $checkOut->format('Y-m-d'),
+            'price' => $this->faker->randomFloat(2, 10000, 3000000),
+            'status' => $this->faker->randomElement(BookingStatusEnum::cases())->value,
+        ];
+    }
+}

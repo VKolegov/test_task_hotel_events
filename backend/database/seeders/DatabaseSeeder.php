@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Infrastructure\Database\Models\Booking;
 use App\Infrastructure\Database\Models\Hotel;
 use App\Infrastructure\Database\Models\HotelGuest;
 use App\Infrastructure\Database\Models\HotelRoom;
@@ -36,14 +37,22 @@ class DatabaseSeeder extends Seeder
             'role_id' => $roleId
         ]);
 
-        $hotels = Hotel::factory(5)->create();
+        $hotels = Hotel::factory(3)->create();
 
         foreach ($hotels as $hotel) {
-            HotelRoom::factory(100)->create([
+            $guests = HotelGuest::factory(100)->create();
+
+            $rooms = HotelRoom::factory(100)->create([
                 'hotel_id' => $hotel->id,
+            ]);
+
+            Booking::factory(100)->create([
+                'hotel_id' => $hotel->id,
+                'room_id' => $rooms->random()->id,
+                // TODO: user id random
             ]);
         }
 
-        HotelGuest::factory(1000)->create();
+
     }
 }

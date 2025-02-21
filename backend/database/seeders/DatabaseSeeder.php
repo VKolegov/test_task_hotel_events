@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Infrastructure\Database\Models\Hotel;
+use App\Infrastructure\Database\Models\HotelRoom;
 use App\Infrastructure\Database\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -32,5 +34,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'role_id' => $roleId
         ]);
+
+        $hotels = Hotel::factory(5)->create();
+
+        foreach ($hotels as $hotel) {
+            HotelRoom::factory(100)->create([
+                'hotel_id' => $hotel->id,
+            ]);
+        }
     }
 }

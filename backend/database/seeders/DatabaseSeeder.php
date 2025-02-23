@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Domain\EventLog\Entities\AuthEventLogData;
+use App\Domain\EventLog\Entities\BookingEventGuestInfo;
+use App\Domain\EventLog\Entities\BookingEventLogData;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use App\Domain\User\Entities\UserPermission;
@@ -57,10 +60,10 @@ class DatabaseSeeder extends Seeder
             )->create([
                 'type' => EventLogTypeEnum::AUTHORIZATION,
                 'user_id' => $user->id,
-                'data' => [
-                    'ip' => fake()->ipv4(),
-                    'user_agent' => fake()->userAgent(),
-                ]
+                'data' => static fn() => (new AuthEventLogData(
+                    fake()->ipv4(),
+                    fake()->userAgent(),
+                ))->toArray()
             ]);
         }
 
@@ -118,24 +121,24 @@ class DatabaseSeeder extends Seeder
                         'guest_id' => $guest->id,
                     ];
 
-                    $guestsInfo[] = [
-                        'id' => $guest->id,
-                        'email' => $guest->email,
-                        'phone' => $guest->phone,
-                        'full_name' => $guest->first_name . ' ' . $guest->last_name,
-                        'document_info' => $guest->document_type . ' ' . $guest->document_number,
-                    ];
+                    $guestsInfo[] = new BookingEventGuestInfo(
+                        $guest->id,
+                        $guest->first_name . ' ' . $guest->last_name,
+                        $guest->phone,
+                        $guest->email,
+                        $guest->document_type . ' ' . $guest->document_number,
+                    );
                 }
 
-                $data = [
-                    "room_id" => $booking->room_id,
-                    "room_number" => $booking->room->number,
-                    "check_in" => $booking->check_in,
-                    "check_out" => $booking->check_out,
-                    "status" => BookingStatusEnum::CONFIRMED,
-                    "price" => $booking->price,
-                    "guests_info" => $guestsInfo,
-                ];
+                $logData = new BookingEventLogData(
+                    $booking->room_id,
+                    $booking->room->number,
+                    $booking->check_in,
+                    $booking->check_out,
+                    BookingStatusEnum::CONFIRMED,
+                    $booking->price,
+                    $guestsInfo,
+                );
 
                 $eventsData[] = EventLogEntryModel::factory()->raw([
                     'date' => $booking->created_at,
@@ -143,7 +146,7 @@ class DatabaseSeeder extends Seeder
                     'hotel_id' => $booking->hotel_id,
                     'type' => EventLogTypeEnum::BOOKING,
                     'user_id' => $booking->user_id,
-                    'data' => json_encode($data, JSON_UNESCAPED_UNICODE),
+                    'data' => json_encode($logData->toArray(), JSON_UNESCAPED_UNICODE),
                 ]);
             }
 

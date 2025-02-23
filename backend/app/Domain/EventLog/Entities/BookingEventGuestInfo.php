@@ -32,4 +32,14 @@ readonly class BookingEventGuestInfo
             $data['document_info']
         );
     }
+
+    public function toArray(): array {
+        return [
+            'id' => $this->id,
+            'full_name' => $this->fullName,
+            'phone' => $this->phone,
+            'email' => $this->email,
+            'document_info' => $this->documentInfo,
+        ];
+    }
 }

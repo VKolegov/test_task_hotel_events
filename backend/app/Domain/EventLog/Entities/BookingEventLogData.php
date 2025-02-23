@@ -33,4 +33,22 @@ readonly final class BookingEventLogData implements EventLogDataInterface
             BookingEventGuestInfo::multipleFromArray($data['guests_info']),
         );
     }
+
+    public function toArray(): array
+    {
+        $guestsInfo = array_map(
+            static fn(BookingEventGuestInfo $guestInfo) => $guestInfo->toArray(),
+            $this->guestsInfo
+        );
+        
+        return [
+            'room_id' => $this->roomId,
+            'room_number' => $this->roomNumber,
+            'check_in' => $this->checkInDate,
+            'check_out' => $this->checkOutDate,
+            'status' => $this->status,
+            'price' => $this->price,
+            'guests_info' => $guestsInfo,
+        ];
+    }
 }

@@ -17,4 +17,12 @@ readonly final class AuthEventLogData implements EventLogDataInterface
             $data['user_agent'],
         );
     }
+
+    public function toArray(): array
+    {
+        return [
+            'ip' => $this->ip,
+            'user_agent' => $this->userAgent,
+        ];
+    }
 }

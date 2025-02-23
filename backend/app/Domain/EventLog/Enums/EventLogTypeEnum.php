@@ -8,5 +8,5 @@ enum EventLogTypeEnum: string
     case CHECKIN = 'checkin';
     case CHECKOUT = 'checkout';
     case BOOKING_CANCEL = 'booking_cancel';
-    case AUTHORIZATION = 'authorization';
+    case AUTHENTICATION = 'authentication';
 }

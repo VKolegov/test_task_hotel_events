@@ -17,7 +17,7 @@ class EventLogFilterMapper
                 $request->date('date_end')
             )
             ->setTypes(
-                $request->array('types'),
+                $request->array('type'),
             )
             ->setUsersId(
                 $request->array('user_id')

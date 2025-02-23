@@ -16,8 +16,8 @@ class GetEventLogsRequest extends FormRequest
             'date_start' => ['date', 'before_or_equal:date_end'],
             'date_end' => ['date', 'after_or_equal:date_start'],
 
-            'types' => ['array',],
-            'types.*' => [
+            'type' => ['array',],
+            'type.*' => [
                 Rule::enum(EventLogTypeEnum::class)
             ],
 

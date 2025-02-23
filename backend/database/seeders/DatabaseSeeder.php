@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             EventLogEntryModel::factory(
                 fake()->numberBetween(1, 10)
             )->create([
-                'type' => EventLogTypeEnum::AUTHORIZATION,
+                'type' => EventLogTypeEnum::AUTHENTICATION,
                 'user_id' => $user->id,
                 'data' => static fn() => (new AuthEventLogData(
                     fake()->ipv4(),

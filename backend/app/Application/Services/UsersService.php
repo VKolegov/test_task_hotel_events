@@ -5,7 +5,7 @@ namespace App\Application\Services;
 use App\Domain\User\Entities\User;
 use App\Domain\User\Repositories\UsersRepository;
 
-class UsersService implements \App\Application\Interfaces\UsersService
+class UsersService implements \App\Application\Interfaces\UsersServiceInterface
 {
     private UsersRepository $repo;
 

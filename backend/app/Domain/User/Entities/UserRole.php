@@ -4,7 +4,7 @@ namespace App\Domain\User\Entities;
 
 use Carbon\Carbon;
 
-class UserRole
+readonly final class UserRole
 {
     public int $id;
     public string $name;
@@ -14,7 +14,7 @@ class UserRole
     public ?Carbon $deletedAt;
 
     /**
-     * @var string[]
+     * @var UserPermission[]
      */
     public array $permissions;
 
@@ -33,7 +33,10 @@ class UserRole
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->deletedAt = $deletedAt;
-        $this->permissions = $permissions;
+        $this->permissions = array_map(
+            static fn($permissionStr) => UserPermission::from($permissionStr),
+            $permissions
+        );
     }
 
 

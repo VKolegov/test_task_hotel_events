@@ -1,5 +1,7 @@
 <?php
 
+use App\Infrastructure\Framework\Providers\UserServiceProvider;
+
 return [
-    \App\Infrastructure\Framework\Providers\AppServiceProvider::class,
+    UserServiceProvider::class,
 ];

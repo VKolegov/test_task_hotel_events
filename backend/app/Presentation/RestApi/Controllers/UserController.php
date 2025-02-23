@@ -2,7 +2,7 @@
 
 namespace App\Presentation\RestApi\Controllers;
 
-use App\Application\Interfaces\UsersService;
+use App\Application\Interfaces\UsersServiceInterface;
 use App\Presentation\RestApi\DTO\UserResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -12,13 +12,13 @@ class UserController extends Controller
 {
 
     public function __construct(
-        private readonly UsersService $userService
+        private readonly UsersServiceInterface $userService
     ) {
     }
 
     public function me(): JsonResponse
     {
-        // get id from auth service (jwt?)
+        // get from auth service (jwt?)
 
         $user = $this->userService->getById(1);
 

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
+use App\Domain\User\Entities\UserPermission;
 use App\Infrastructure\Database\Models\BookingModel;
 use App\Infrastructure\Database\Models\BookingGuestPivot;
 use App\Infrastructure\Database\Models\EventLogEntryModel;
@@ -28,7 +29,9 @@ class DatabaseSeeder extends Seeder
         $roleId = DB::table('user_roles')->insertGetId([
             'name' => fake()->words(3, asText: true),
             'description' => fake()->text(),
-            'permissions' => json_encode([], JSON_THROW_ON_ERROR),
+            'permissions' => json_encode([
+                UserPermission::READ_EVENT_LOGS,
+            ], JSON_THROW_ON_ERROR),
             'created_at' => $now,
             'updated_at' => $now,
         ]);

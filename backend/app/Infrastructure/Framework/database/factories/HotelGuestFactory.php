@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Infrastructure\Framework\database\factories;
 
 use App\Infrastructure\Database\Models\HotelGuestModel;
 use Illuminate\Database\Eloquent\Factories\Factory;

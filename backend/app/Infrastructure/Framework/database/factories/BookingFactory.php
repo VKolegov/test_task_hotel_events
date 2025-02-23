@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Infrastructure\Framework\database\factories;
 
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use App\Infrastructure\Database\Models\BookingModel;

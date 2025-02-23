@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use Database\Factories\EventLogEntryFactory;
+use App\Infrastructure\Framework\database\factories\EventLogEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;

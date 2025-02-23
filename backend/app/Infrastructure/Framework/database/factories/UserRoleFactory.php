@@ -1,8 +1,7 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Infrastructure\Framework\database\factories;
 
-use App\Domain\User\Entities\User;
 use App\Domain\User\Entities\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

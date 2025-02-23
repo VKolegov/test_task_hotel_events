@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Infrastructure\Framework\database\factories;
 
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Infrastructure\Database\Models\EventLogEntryModel;

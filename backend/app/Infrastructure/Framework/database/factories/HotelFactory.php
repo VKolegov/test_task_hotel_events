@@ -1,12 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Infrastructure\Framework\database\factories;
 
 use App\Infrastructure\Database\Models\HotelModel;
-use App\Infrastructure\Database\Models\UserModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class HotelFactory extends Factory
 {

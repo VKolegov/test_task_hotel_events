@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use Database\Factories\HotelFactory;
+use App\Infrastructure\Framework\database\factories\HotelFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

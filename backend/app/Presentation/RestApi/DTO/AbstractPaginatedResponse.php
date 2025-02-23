@@ -4,8 +4,9 @@ namespace App\Presentation\RestApi\DTO;
 
 use App\Domain\Common\DTO\PaginatedEntities;
 use Illuminate\Support\Collection;
+use JsonSerializable;
 
-abstract class AbstractPaginatedResponse implements \JsonSerializable
+abstract class AbstractPaginatedResponse implements JsonSerializable
 {
     public function __construct(
         public int $currentPage,

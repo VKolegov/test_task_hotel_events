@@ -5,7 +5,9 @@ namespace App\Infrastructure\Database\Models;
 use Database\Factories\BookingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  *
@@ -14,14 +16,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $hotel_id
  * @property int $room_id
  * @property int|null $user_id
- * @property \Illuminate\Support\Carbon $check_in
- * @property \Illuminate\Support\Carbon $check_out
+ * @property Carbon $check_in
+ * @property Carbon $check_out
  * @property float $price
  * @property string $status
  * @property int|null $updated_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @mixin \Eloquent
  */
 class BookingModel extends Model
@@ -39,7 +41,7 @@ class BookingModel extends Model
         ];
     }
 
-    public function guests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function guests(): BelongsToMany
     {
         return $this->belongsToMany(
             HotelGuestModel::class,

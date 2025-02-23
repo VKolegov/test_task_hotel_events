@@ -18,7 +18,6 @@ readonly class PaginatedEntities
         public int $pageSize,
         public int $totalCount,
         public Collection $entities
-    )
-    {
+    ) {
     }
 }

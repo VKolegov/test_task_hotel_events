@@ -2,7 +2,6 @@
 
 namespace App\Presentation\RestApi\DTO;
 
-use App\Domain\User\Entities\User;
 use App\Domain\User\Entities\UserRole;
 use JsonSerializable;
 

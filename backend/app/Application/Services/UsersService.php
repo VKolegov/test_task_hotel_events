@@ -2,14 +2,16 @@
 
 namespace App\Application\Services;
 
+use App\Application\Interfaces\UsersServiceInterface;
 use App\Domain\User\Entities\User;
 use App\Domain\User\Repositories\UsersRepository;
 
-class UsersService implements \App\Application\Interfaces\UsersServiceInterface
+class UsersService implements UsersServiceInterface
 {
     private UsersRepository $repo;
 
-    public function __construct(UsersRepository $repo) {
+    public function __construct(UsersRepository $repo)
+    {
         $this->repo = $repo;
     }
 

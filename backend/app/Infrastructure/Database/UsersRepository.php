@@ -5,7 +5,6 @@ namespace App\Infrastructure\Database;
 use App\Domain\User\Entities\User;
 use App\Domain\User\Entities\UserRole;
 use App\Infrastructure\Database\Models\UserModel;
-use App\Infrastructure\Database\Models\UserRoleModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,6 @@ class UsersRepository implements \App\Domain\User\Repositories\UsersRepository
 
     public function getById(int $id): ?User
     {
-
         $userModel = UserModel::query()
             ->with(['role'])
             ->find($id);
@@ -76,7 +74,7 @@ class UsersRepository implements \App\Domain\User\Repositories\UsersRepository
         $userRole = null;
 
         if ($row->role_id) {
-            $userRole = new \App\Domain\User\Entities\UserRole(
+            $userRole = new UserRole(
                 $row->role_id,
                 $row->role_name,
                 $row->role_description,

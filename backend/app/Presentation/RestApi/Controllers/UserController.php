@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\Response as Response;
 class UserController extends Controller
 {
 
-    public function __construct(
-        private readonly UsersServiceInterface $userService
-    ) {
+    private UsersServiceInterface $service;
+
+    public function __construct(UsersServiceInterface $userService) {
+        $this->service = $userService;
     }
 
     public function me(): JsonResponse
     {
         // get from auth service (jwt?)
 
-        $user = $this->userService->getById(1);
+        $user = $this->service->getById(1);
 
         if (!$user) {
             return new JsonResponse(

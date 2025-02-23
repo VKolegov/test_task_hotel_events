@@ -11,13 +11,13 @@ class EventsLogServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-       $this->app->bind(
-           EventLogsServiceInterface::class,
-           static function () {
-               $repo = new EventsLogRepository();
+        $this->app->bind(
+            EventLogsServiceInterface::class,
+            static function () {
+                $repo = new EventsLogRepository();
 
-               return new EventsLogService($repo);
-           }
-       );
+                return new EventsLogService($repo);
+            }
+        );
     }
 }

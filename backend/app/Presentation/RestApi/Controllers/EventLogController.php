@@ -3,7 +3,6 @@
 namespace App\Presentation\RestApi\Controllers;
 
 use App\Application\Interfaces\EventLogsServiceInterface;
-use App\Domain\EventLog\EventLogFilter;
 use App\Infrastructure\Database\UsersRepository;
 use App\Presentation\RestApi\DTO\EventsLogPaginatedResponse;
 use App\Presentation\RestApi\Mappers\EventLogFilterMapper;

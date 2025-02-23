@@ -6,7 +6,7 @@ use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use Carbon\Carbon;
 
 /**
- * @template T of EventLogData
+ * @template T of EventLogDataInterface
  */
 readonly final class EventLogEntry
 {
@@ -24,7 +24,7 @@ readonly final class EventLogEntry
     /**
      * @return T
      */
-    public function getData(): ?EventLogData
+    public function getData(): ?EventLogDataInterface
     {
         return EventLogDataFactory::fromArray(
             $this->type,

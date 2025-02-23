@@ -2,7 +2,7 @@
 
 namespace App\Domain\EventLog\Entities;
 
-interface EventLogData
+interface EventLogDataInterface
 {
     public static function fromArray(array $data): self;
 }

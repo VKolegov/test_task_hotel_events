@@ -58,7 +58,7 @@ class BookingModel extends Model
         );
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): BookingFactory
     {
         return BookingFactory::new();
     }

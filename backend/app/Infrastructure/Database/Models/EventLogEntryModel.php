@@ -35,7 +35,7 @@ class EventLogEntryModel extends Model
         ];
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): EventLogEntryFactory
     {
         return EventLogEntryFactory::new();
     }

@@ -27,7 +27,7 @@ class HotelRoomModel extends Model
 
     protected $table = 'hotel_rooms';
 
-    protected static function newFactory()
+    protected static function newFactory(): HotelRoomFactory
     {
         return HotelRoomFactory::new();
     }

@@ -32,7 +32,7 @@ class HotelModel extends Model
 
     protected $table = 'hotels';
 
-    protected function casts()
+    protected function casts(): array
     {
         return [
             'latitude' => 'float',
@@ -40,7 +40,7 @@ class HotelModel extends Model
         ];
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): HotelFactory
     {
         return HotelFactory::new();
     }

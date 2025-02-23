@@ -75,7 +75,7 @@ class UserModel extends Authenticatable
         return $this->belongsTo(UserRoleModel::class, 'role_id');
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }

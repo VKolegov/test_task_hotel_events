@@ -6,7 +6,7 @@ use App\Application\Interfaces\UsersServiceInterface;
 use App\Presentation\RestApi\DTO\UserResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Symfony\Component\HttpFoundation\Response as Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {

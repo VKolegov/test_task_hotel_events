@@ -32,7 +32,7 @@ class HotelGuestModel extends Model
 
     protected $table = 'hotel_guests';
 
-    protected static function newFactory()
+    protected static function newFactory(): HotelGuestFactory
     {
         return HotelGuestFactory::new();
     }

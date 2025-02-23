@@ -8,7 +8,7 @@ use App\Infrastructure\Database\Models\UserModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class UsersRepository implements \App\Domain\User\Repositories\UsersRepository
+class UsersRepository implements \App\Domain\User\Repositories\UsersRepositoryInterface
 {
 
     private string $table = 'users';

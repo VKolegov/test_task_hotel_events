@@ -12,7 +12,7 @@ class BookingFactory extends Factory
 
     public function definition()
     {
-        $checkOut = \Carbon\CarbonImmutable::parse($this->faker->date());
+        $checkOut = \Carbon\CarbonImmutable::parse($this->faker->dateTimeBetween('-3 months', 'now'));
         $checkIn = $checkOut->subDays(
             $this->faker->numberBetween(1, 14)
         );

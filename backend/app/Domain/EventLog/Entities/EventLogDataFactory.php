@@ -10,6 +10,7 @@ class EventLogDataFactory
     {
         return match ($type) {
             EventLogTypeEnum::AUTHORIZATION => AuthEventLogData::fromArray($data),
+            EventLogTypeEnum::BOOKING => BookingEventLogData::fromArray($data),
             default => null,
         };
     }

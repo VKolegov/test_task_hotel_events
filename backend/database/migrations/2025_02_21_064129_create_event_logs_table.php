@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('date');
             $table->unsignedBigInteger('hotel_id')->nullable();
             $table->unsignedBigInteger('booking_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->jsonb('data')->default("{}");
 

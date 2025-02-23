@@ -26,6 +26,7 @@ class EventsLogRepository implements EventLogsRepositoryInterface
         $count = $query->count();
 
         $entities = $query
+            ->orderBy('date', 'desc')
             ->limit($pageSize)
             ->offset(($page - 1) * $pageSize)
             ->get()

@@ -4,14 +4,14 @@ namespace App\Domain\EventLog\Repositories;
 
 use App\Domain\Common\DTO\PaginatedEntities;
 use App\Domain\EventLog\Entities\EventLogEntry;
-use App\Domain\EventLog\EventLogRepositoryFilter;
+use App\Domain\EventLog\EventLogFilter;
 
-interface EventLogEntryRepository
+interface EventLogsRepositoryInterface
 {
     /** @returns PaginatedEntities<EventLogEntry> */
     public function getPaginated(
         int $pageSize,
         int $page = 1,
-        ?EventLogRepositoryFilter $filter = null
+        ?EventLogFilter $filter = null
     ): PaginatedEntities;
 }

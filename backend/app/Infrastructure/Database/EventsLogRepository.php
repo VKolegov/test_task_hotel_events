@@ -5,17 +5,17 @@ namespace App\Infrastructure\Database;
 use App\Domain\Common\DTO\PaginatedEntities;
 use App\Domain\EventLog\Entities\EventLogEntry;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
-use App\Domain\EventLog\EventLogRepositoryFilter;
-use App\Domain\EventLog\Repositories\EventLogEntryRepository;
+use App\Domain\EventLog\EventLogFilter;
+use App\Domain\EventLog\Repositories\EventLogsRepositoryInterface;
 use App\Infrastructure\Database\Models\EventLogEntryModel;
 use Illuminate\Contracts\Database\Query\Builder;
 
-class EventsRepository implements EventLogEntryRepository
+class EventsLogRepository implements EventLogsRepositoryInterface
 {
     public function getPaginated(
         int $pageSize,
         int $page = 1,
-        ?EventLogRepositoryFilter $filter = null
+        ?EventLogFilter $filter = null
     ): PaginatedEntities {
         $query = EventLogEntryModel::query();
 
@@ -50,7 +50,7 @@ class EventsRepository implements EventLogEntryRepository
         );
     }
 
-    private function applyFilter(Builder $query, EventLogRepositoryFilter $filter): Builder
+    private function applyFilter(Builder $query, EventLogFilter $filter): Builder
     {
         if ($filter->usersId) {
             $query->whereIn('user_id', $filter->usersId);

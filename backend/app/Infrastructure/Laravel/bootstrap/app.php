@@ -1,8 +1,8 @@
 <?php
 
-use App\Infrastructure\Framework\Application;
-use App\Infrastructure\Framework\Providers\EventsLogServiceProvider;
-use App\Infrastructure\Framework\Providers\UserServiceProvider;
+use App\Infrastructure\Laravel\Application;
+use App\Infrastructure\Laravel\Providers\EventsLogServiceProvider;
+use App\Infrastructure\Laravel\Providers\UserServiceProvider;
 
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

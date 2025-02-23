@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use App\Infrastructure\Framework\database\factories\BookingFactory;
+use App\Infrastructure\Laravel\database\factories\BookingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

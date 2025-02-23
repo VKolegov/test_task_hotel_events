@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Framework\Providers;
+namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Interfaces\UsersServiceInterface;
 use App\Application\Services\UsersService;

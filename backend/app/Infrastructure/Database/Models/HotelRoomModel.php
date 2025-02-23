@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use App\Infrastructure\Framework\database\factories\HotelRoomFactory;
+use App\Infrastructure\Laravel\database\factories\HotelRoomFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

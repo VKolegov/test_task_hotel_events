@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Database\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Infrastructure\Framework\database\factories\UserFactory;
+use App\Infrastructure\Laravel\database\factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;

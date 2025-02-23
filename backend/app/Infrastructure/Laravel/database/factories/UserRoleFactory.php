@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Framework\database\factories;
+namespace App\Infrastructure\Laravel\database\factories;
 
 use App\Domain\User\Entities\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;

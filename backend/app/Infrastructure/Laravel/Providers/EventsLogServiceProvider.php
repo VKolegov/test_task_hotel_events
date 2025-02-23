@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Framework\Providers;
+namespace App\Infrastructure\Laravel\Providers;
 
 use App\Application\Interfaces\EventLogsServiceInterface;
 use App\Application\Services\EventsLogService;

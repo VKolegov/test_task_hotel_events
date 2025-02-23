@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Database\Models;
 
-use App\Infrastructure\Framework\database\factories\EventLogEntryFactory;
+use App\Infrastructure\Laravel\database\factories\EventLogEntryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;

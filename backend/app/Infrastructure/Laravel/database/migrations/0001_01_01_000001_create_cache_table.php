@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Framework\database\migrations;
+namespace App\Infrastructure\Laravel\database\migrations;
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

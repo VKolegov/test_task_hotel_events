@@ -13,11 +13,13 @@ $app = Application::configure(basePath: dirname(__DIR__))
         EventsLogServiceProvider::class,
     ])
     ->withRouting(
-        web: __DIR__ . '/../../../Presentation/RestApi/routes.php',
+        api: __DIR__ . '/../../../Presentation/RestApi/routes.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append([
+            \Illuminate\Http\Middleware\HandleCors::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -1,6 +1,6 @@
-import {parseISO} from "date-fns";
-import {EventType} from "./EventLogType";
-import type {BookingEventLogDataResponse, EventLogEntryResponse} from "./EventLogEntryResponse";
+import { parseISO } from 'date-fns';
+import { EventType } from './EventLogType';
+import type { BookingEventLogDataResponse, EventLogEntryResponse } from './EventLogEntryResponse';
 
 type EventTypeData = AuthEventLogData;
 
@@ -15,15 +15,14 @@ export class AuthEventLogData {
 }
 
 export enum BookingStatusEnum {
-  PENDING = 'pending',          // Ожидание подтверждения
-  CONFIRMED = 'confirmed',      // Подтверждено
-  CHECKED_IN = 'checked_in',    // Гость заселился
-  CHECKED_OUT = 'checked_out',  // Гость выселился
-  CANCELLED = 'cancelled',      // Отмена бронирования
-  NO_SHOW = 'no_show',          // Гость не приехал
-  EXPIRED = 'expired',          // Истекло (не подтверждено вовремя)
+  PENDING = 'pending', // Ожидание подтверждения
+  CONFIRMED = 'confirmed', // Подтверждено
+  CHECKED_IN = 'checked_in', // Гость заселился
+  CHECKED_OUT = 'checked_out', // Гость выселился
+  CANCELLED = 'cancelled', // Отмена бронирования
+  NO_SHOW = 'no_show', // Гость не приехал
+  EXPIRED = 'expired', // Истекло (не подтверждено вовремя)
 }
-
 
 export class BookingEventLogData {
   room_id: number;
@@ -53,15 +52,15 @@ export class BookingEventLogData {
   }
 
   static fromResponse(r: BookingEventLogDataResponse): BookingEventLogData {
-      return new BookingEventLogData(
-        r.room_id,
-        r.room_number,
-        r.status as BookingStatusEnum,
-        parseISO(r.check_in),
-        parseISO(r.check_out),
-        r.guests_info as GuestsInfo[],
-        r.price,
-      );
+    return new BookingEventLogData(
+      r.room_id,
+      r.room_number,
+      r.status as BookingStatusEnum,
+      parseISO(r.check_in),
+      parseISO(r.check_out),
+      r.guests_info as GuestsInfo[],
+      r.price,
+    );
   }
 }
 
@@ -72,7 +71,6 @@ export interface GuestsInfo {
   full_name: string;
   document_info: string;
 }
-
 
 export default class EventLogEntry {
   id: number;
@@ -102,7 +100,6 @@ export default class EventLogEntry {
   }
 
   static fromResponse(responseData: EventLogEntryResponse) {
-
     const dataType = responseData.type as EventType;
 
     let data: EventTypeData;
@@ -119,7 +116,6 @@ export default class EventLogEntry {
         break;
     }
 
-
     return new EventLogEntry(
       responseData.id,
       dataType,
@@ -128,6 +124,6 @@ export default class EventLogEntry {
       responseData.hotel_id,
       responseData.booking_id,
       responseData.user_id,
-    )
+    );
   }
 }

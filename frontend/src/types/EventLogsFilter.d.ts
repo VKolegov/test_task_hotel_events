@@ -1,4 +1,4 @@
-import type {EventType} from "./EventLogType";
+import type { EventType } from './EventLogType';
 
 export default interface EventLogsFilter {
   type?: EventType[];

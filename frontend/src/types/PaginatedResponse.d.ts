@@ -5,4 +5,3 @@ export default interface PaginatedResponse<T> {
   total_count: number;
   entities: T[];
 }
-

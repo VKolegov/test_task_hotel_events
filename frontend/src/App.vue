@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
 import { QLayout } from 'quasar';
 </script>
 
@@ -9,6 +9,4 @@ import { QLayout } from 'quasar';
   </QLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

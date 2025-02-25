@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import {computed, type ComputedRef, ref, type Ref, watch} from 'vue';
-import {QTable, QSelect, type QTableProps} from 'quasar';
-import {format} from 'date-fns';
-import {ru} from 'date-fns/locale';
+import { computed, type ComputedRef, ref, type Ref, watch } from 'vue';
+import { QTable, QSelect, type QTableProps } from 'quasar';
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 import EventLogEntry from '@/types/EventLogEntry';
-import {EventTypeTitle, EventType} from '@/types/EventLogType';
+import { EventTypeTitle, EventType } from '@/types/EventLogType';
 import HttpError from '@/api/http_error';
-import {fetchEventsLog} from '@/api/event_logs';
+import { fetchEventsLog } from '@/api/event_logs';
 import type EventLogsFilter from '@/types/EventLogsFilter';
-
 
 type Pagination = Required<QTableProps['pagination']>;
 
@@ -41,19 +40,13 @@ watch(tableFilter, () => {
   loadEventLog(pagination.value?.page, pagination.value?.rowsPerPage);
 });
 
-
 const events = ref<EventLogEntry[]>([]);
-
 
 async function loadEventLog(page: number, pageSize: number) {
   try {
-    const response = await fetchEventsLog(
-      page,
-      pageSize,
-      tableFilter.value,
-    );
+    const response = await fetchEventsLog(page, pageSize, tableFilter.value);
 
-    const logEntries = response.entities.map(entity => EventLogEntry.fromResponse(entity));
+    const logEntries = response.entities.map((entity) => EventLogEntry.fromResponse(entity));
 
     events.value.splice(0, events.value.length, ...logEntries);
 
@@ -63,7 +56,6 @@ async function loadEventLog(page: number, pageSize: number) {
       rowsPerPage: pageSize,
       rowsNumber: response.total_count,
     };
-
   } catch (e) {
     console.error(e.toString(), e);
     if (e instanceof HttpError) {
@@ -71,7 +63,6 @@ async function loadEventLog(page: number, pageSize: number) {
     }
   }
 }
-
 
 const columns: QTableProps['columns'] = [
   {
@@ -84,7 +75,7 @@ const columns: QTableProps['columns'] = [
     name: 'date',
     label: 'Дата события',
     field: 'date',
-    format: (val: Date) => format(val, "dd MMM yyyy  HH:mm", {locale: ru}),
+    format: (val: Date) => format(val, 'dd MMM yyyy  HH:mm', { locale: ru }),
     sortable: true,
   },
   {
@@ -93,27 +84,32 @@ const columns: QTableProps['columns'] = [
     field: 'type',
     format: (val: EventType) => EventTypeTitle[val],
   },
-
 ];
 
 const rowsPerPageOptions = [8, 16, 32, 64];
 
 loadEventLog(pagination.value.page, pagination.value.rowsPerPage);
 
-const onRequest: QTableProps["onRequest"] = (r) => {
+const onRequest: QTableProps['onRequest'] = (r) => {
   loadEventLog(r.pagination.page, r.pagination.rowsPerPage);
-}
-
+};
 </script>
-
 
 <template>
   <div>
-    <QSelect label="Тип события" v-model="selectedTypes" :options="availableTypes" :option-label="eventTypeTitle"
-      multiple />
-    <QTable v-model:pagination="pagination" :columns="columns" :rows="events"
-      :rows-per-page-options="rowsPerPageOptions" @request="onRequest">
-
-    </QTable>
+    <QSelect
+      v-model="selectedTypes"
+      label="Тип события"
+      :options="availableTypes"
+      :option-label="eventTypeTitle"
+      multiple
+    />
+    <QTable
+      v-model:pagination="pagination"
+      :columns="columns"
+      :rows="events"
+      :rows-per-page-options="rowsPerPageOptions"
+      @request="onRequest"
+    />
   </div>
 </template>

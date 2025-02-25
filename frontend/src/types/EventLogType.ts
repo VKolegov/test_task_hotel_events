@@ -1,7 +1,7 @@
 export enum EventType {
-  BOOKING = "booking",
+  BOOKING = 'booking',
   BOOKING_CANCEL = 'booking_cancel',
-  CHECKIN = "checkin",
+  CHECKIN = 'checkin',
   CHECKOUT = 'checkout',
   AUTHENTICATION = 'authentication',
 }
@@ -13,4 +13,3 @@ export const EventTypeTitle: Record<EventType, string> = {
   [EventType.CHECKOUT]: 'Выселение',
   [EventType.AUTHENTICATION]: 'Аутентификация',
 };
-

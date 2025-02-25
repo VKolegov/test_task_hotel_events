@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, type ComputedRef, ref, type Ref, watch } from 'vue';
-import { QTable, QSelect, type QTableProps } from 'quasar';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { QTable, QSelect, type QTableProps, QInput, QDate } from 'quasar';
+import { parseISO } from 'date-fns';
 
 import EventLogEntry from '@/types/EventLogEntry';
 import { EventTypeTitle, EventType } from '@/types/EventLogType';
 import HttpError from '@/api/http_error';
 import { fetchEventsLog } from '@/api/event_logs';
 import type EventLogsFilter from '@/types/EventLogsFilter';
+import { formatDate, formatDateTime } from '@/helpers/date';
 
 type Pagination = Required<QTableProps['pagination']>;
 
@@ -21,7 +21,28 @@ const pagination: Ref<Pagination> = ref({
 });
 
 /** filtering **/
+const dateRange = ref({ from: null, to: null });
+const dateRangeMask = 'YYYY-MM-DDTHH:mm:ssZ';
+const dateRangeText = computed(() => {
+  const date = dateRange.value;
+  if (!date) {
+    return null;
+  }
 
+  if (typeof date === 'string') {
+    const d = parseISO(date);
+    return formatDate(d);
+  }
+
+  if (date.from && date.to) {
+    const from = parseISO(date.from);
+    const to = parseISO(date.to);
+
+    return formatDate(from) + ' - ' + formatDate(to);
+  }
+
+  return null;
+});
 const selectedTypes: Ref<EventType[]> = ref([]);
 
 const availableTypes = Object.values(EventType);
@@ -29,11 +50,45 @@ function eventTypeTitle(eventType: EventType): string {
   return EventTypeTitle[eventType] ?? eventType;
 }
 
+const dateStart = computed(() => {
+  const val = dateRange.value;
+  if (!val) {
+    return null;
+  }
+
+  if (!val.hasOwnProperty('from')) {
+    return val;
+  }
+
+  if (val.from) {
+    return val.from;
+  }
+
+  return null;
+});
+
+const dateEnd = computed(() => {
+  const val = dateRange.value;
+  if (!val) {
+    return null;
+  }
+
+  if (!val.hasOwnProperty('to')) {
+    return val;
+  }
+
+  if (val.to) {
+    return val.to;
+  }
+
+  return null;
+});
+
 const tableFilter: ComputedRef<EventLogsFilter> = computed(() => ({
   type: selectedTypes.value,
   user_id: [],
-  date_start: null,
-  date_end: null,
+  date_start: dateStart.value,
+  date_end: dateEnd.value,
 }));
 
 watch(tableFilter, () => {
@@ -75,7 +130,7 @@ const columns: QTableProps['columns'] = [
     name: 'date',
     label: 'Дата события',
     field: 'date',
-    format: (val: Date) => format(val, 'dd MMM yyyy  HH:mm', { locale: ru }),
+    format: formatDateTime,
     sortable: true,
   },
   {
@@ -97,6 +152,40 @@ const onRequest: QTableProps['onRequest'] = (r) => {
 
 <template>
   <div>
+    <q-input
+      label="Период"
+      :model-value="dateRangeText"
+      readonly
+      filled
+    >
+      <template #append>
+        <q-icon
+          name="event"
+          class="cursor-pointer"
+        >
+          <q-popup-proxy
+            cover
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            <q-date
+              v-model="dateRange"
+              range
+              :mask="dateRangeMask"
+            >
+              <div class="row items-center justify-end">
+                <q-btn
+                  v-close-popup
+                  label="Close"
+                  color="primary"
+                  flat
+                />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
     <QSelect
       v-model="selectedTypes"
       label="Тип события"

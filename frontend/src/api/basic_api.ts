@@ -58,7 +58,7 @@ function buildQueryString(data: Record<string, RequestParamType>): string {
   for (const [k, v] of Object.entries(data)) {
     if (Array.isArray(v)) {
       v.forEach((el) => queryStringBuilder.append(`${k}[]`, el));
-    } else if (v !== null) {
+    } else if (v !== null && v !== undefined) {
       queryStringBuilder.append(k, v.toString());
     }
   }

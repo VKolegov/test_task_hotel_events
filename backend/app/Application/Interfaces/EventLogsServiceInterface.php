@@ -2,6 +2,7 @@
 
 namespace App\Application\Interfaces;
 
+use App\Application\Exceptions\UnauthorizedException;
 use App\Domain\Common\DTO\PaginatedEntities;
 use App\Domain\EventLog\Entities\EventLogEntry;
 use App\Domain\EventLog\EventLogFilter;
@@ -11,6 +12,7 @@ interface EventLogsServiceInterface
 {
     /**
      * @returns PaginatedEntities<EventLogEntry>
+     * @throws UnauthorizedException
      */
     public function getPaginatedEventLog(
         User $user,

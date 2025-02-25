@@ -1,9 +1,8 @@
 export default class HttpError extends Error {
-
   status: number;
   url: string;
-  details: any;
-  responseBody: any;
+  details: object | null;
+  responseBody: string | object | null;
 
   /**
    * @param {string} [message] - Сообщение об ошибке (необязательно).
@@ -14,8 +13,8 @@ export default class HttpError extends Error {
     status: number,
     url: string,
     message: string = 'HTTP Error',
-    details: any = null,
-    responseBody: any = null,
+    details: object | null = null,
+    responseBody: string | object | null = null,
   ) {
     super(message);
 
@@ -45,7 +44,11 @@ export default class HttpError extends Error {
       return '';
     }
 
-    return this.responseBody.error ?? '';
+    if (typeof this.responseBody === 'string') {
+      return this.responseBody;
+    }
+
+    return this.responseBody?.error ?? '';
   }
 
   /**
@@ -58,12 +61,17 @@ export default class HttpError extends Error {
       return fieldErrors;
     }
 
+    if (!this.responseBody) {
+      return fieldErrors;
+    }
+
+    if (typeof this.responseBody === 'string') {
+      return fieldErrors;
+    }
+
     if (typeof this.responseBody.errors === 'object') {
       for (const [k, v] of Object.entries(this.responseBody.errors)) {
-        fieldErrors.set(
-          k,
-          Array.isArray(v) ? v.join(";\n") : v,
-        );
+        fieldErrors.set(k, Array.isArray(v) ? v.join(';\n') : v);
       }
     }
 

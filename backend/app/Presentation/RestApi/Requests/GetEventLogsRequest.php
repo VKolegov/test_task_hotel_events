@@ -3,10 +3,9 @@
 namespace App\Presentation\RestApi\Requests;
 
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetEventLogsRequest extends FormRequest
+class GetEventLogsRequest extends PaginatedRequest
 {
     protected function validationRules(): array
     {

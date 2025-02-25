@@ -9,18 +9,23 @@ class GetEventLogsRequest extends PaginatedRequest
 {
     protected function validationRules(): array
     {
+        $dateStartRule = Rule::date();
+        if ($this->has('date_end')) {
+            $dateStartRule->beforeOrEqual('date_end');
+        }
+
         return [
             ...parent::validationRules(),
 
-            'date_start' => ['date', 'before_or_equal:date_end'],
-            'date_end' => ['date', 'after_or_equal:date_start'],
+            'date_start' => [$dateStartRule],
+            'date_end' => [Rule::date()->afterOrEqual('date_start')],
 
-            'type' => ['array',],
+            'type' => [Rule::array()],
             'type.*' => [
                 Rule::enum(EventLogTypeEnum::class)
             ],
 
-            'user_id' => ['array',],
+            'user_id' => [Rule::array()],
             'user_id.*' => [Rule::numeric()->integer()->min(1)]
         ];
     }

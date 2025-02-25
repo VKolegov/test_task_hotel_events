@@ -19,12 +19,18 @@ class EventLogFilter
 
     public function setDateStart(?Carbon $dateStart): EventLogFilter
     {
+        if ($dateStart) {
+            $dateStart->startOfDay()->setTimezone('UTC');
+        }
         $this->dateStart = $dateStart;
         return $this;
     }
 
     public function setDateEnd(?Carbon $dateEnd): EventLogFilter
     {
+        if ($dateEnd) {
+            $dateEnd->endOfDay()->setTimezone('UTC');
+        }
         $this->dateEnd = $dateEnd;
         return $this;
     }

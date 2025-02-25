@@ -58,11 +58,11 @@ class EventsLogRepository implements EventLogsRepositoryInterface
         }
 
         if ($filter->dateStart) {
-            $query->whereDate('date', '>=', $filter->dateStart);
+            $query->where('date', '>=', $filter->dateStart);
         }
 
         if ($filter->dateEnd) {
-            $query->whereDate('date', '<=', $filter->dateEnd);
+            $query->where('date', '<=', $filter->dateEnd);
         }
 
         if ($filter->types) {

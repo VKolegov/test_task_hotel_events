@@ -4,7 +4,7 @@ export interface EventLogEntryResponse {
   date: string;
   data: AuthEventLogDataResponse | BookingEventLogDataResponse;
   entity_type: string | null;
-  entity_id: number | null
+  entity_id: number | null;
 }
 
 export interface AuthEventLogDataResponse {

@@ -90,7 +90,7 @@ export default class EventLogEntry {
     type: EventType,
     date: Date,
     data: EventTypeData,
-    entity_type: EventEntityTypeEnum | null, 
+    entity_type: EventEntityTypeEnum | null,
     entity_id: number | null,
   ) {
     this.id = id;

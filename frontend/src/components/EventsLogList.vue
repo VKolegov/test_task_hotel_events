@@ -5,10 +5,13 @@ import { parseISO } from 'date-fns';
 
 import EventLogEntry from '@/types/EventLogEntry';
 import { EventTypeTitle, EventType } from '@/types/EventLogType';
+import type { User } from '@/types/User';
+import type EventLogsFilter from '@/types/EventLogsFilter';
+
 import HttpError from '@/api/http_error';
 import { fetchEventsLog } from '@/api/event_logs';
-import type EventLogsFilter from '@/types/EventLogsFilter';
 import { formatDate, formatDateTime } from '@/helpers/date';
+import { useMainStore } from '@/stores/main';
 
 type Pagination = Required<QTableProps['pagination']>;
 
@@ -84,9 +87,14 @@ const dateEnd = computed(() => {
   return null;
 });
 
+const store = useMainStore();
+
+const selectedUsers: Ref<User[]> = ref([]);
+const users = computed(() => store.users);
+
 const tableFilter: ComputedRef<EventLogsFilter> = computed(() => ({
   type: selectedTypes.value,
-  user_id: [],
+  user_id: selectedUsers.value.map((u) => u.id),
   date_start: dateStart.value,
   date_end: dateEnd.value,
 }));
@@ -191,6 +199,13 @@ const onRequest: QTableProps['onRequest'] = (r) => {
       label="Тип события"
       :options="availableTypes"
       :option-label="eventTypeTitle"
+      multiple
+    />
+    <QSelect
+      v-model="selectedUsers"
+      label="Пользователь системы"
+      :options="users"
+      option-label="name"
       multiple
     />
     <QTable

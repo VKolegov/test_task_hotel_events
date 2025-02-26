@@ -1,6 +1,5 @@
-import type {User} from "@/types/User";
-import {baseURL, getRequest} from "./basic_api";
-
+import type { User } from '@/types/User';
+import { baseURL, getRequest } from './basic_api';
 
 export async function fetchMe(): Promise<User> {
   return await getRequest(`${baseURL}/me`);

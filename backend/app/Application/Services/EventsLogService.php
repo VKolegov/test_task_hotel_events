@@ -4,6 +4,7 @@ namespace App\Application\Services;
 
 use App\Application\Exceptions\UnauthorizedException;
 use App\Application\Interfaces\EventLogsServiceInterface;
+use App\Application\Interfaces\UserPermissionServiceInterface;
 use App\Domain\Common\DTO\PaginatedEntities;
 use App\Domain\EventLog\EventLogFilter;
 use App\Domain\EventLog\Repositories\EventLogsRepositoryInterface;
@@ -14,7 +15,8 @@ class EventsLogService implements EventLogsServiceInterface
 {
 
     public function __construct(
-        private readonly EventLogsRepositoryInterface $repo
+        private readonly EventLogsRepositoryInterface $repo,
+        private readonly UserPermissionServiceInterface $permissionService
     ) {
     }
 
@@ -30,8 +32,7 @@ class EventsLogService implements EventLogsServiceInterface
         ?EventLogFilter $filter = null
     ): PaginatedEntities {
         if (
-            !$user->role
-            || !in_array(UserPermission::READ_EVENT_LOGS, $user->role->permissions, true)
+            $this->permissionService->doesNotHavePermission($user, UserPermission::READ_EVENT_LOGS)
         ) {
             throw new UnauthorizedException();
         }

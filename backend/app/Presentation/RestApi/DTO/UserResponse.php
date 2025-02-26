@@ -3,6 +3,7 @@
 namespace App\Presentation\RestApi\DTO;
 
 use App\Domain\User\Entities\User;
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 class UserResponse implements JsonSerializable
@@ -20,12 +21,17 @@ class UserResponse implements JsonSerializable
         $this->role = $role;
     }
 
+    public static function fromEntities(Collection $entities): Collection
+    {
+        return $entities->map([__CLASS__, 'fromEntity']);
+    }
+
     public static function fromEntity(User $entity): self
     {
         return new self(
             $entity->id,
-            $entity->email,
             $entity->userName,
+            $entity->email,
             $entity->role ? UserRoleResponse::fromEntity($entity->role) : null,
         );
     }

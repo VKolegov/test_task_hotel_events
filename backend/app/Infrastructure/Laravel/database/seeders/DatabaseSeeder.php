@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'description' => fake()->text(),
             'permissions' => json_encode([
                 UserPermission::READ_EVENT_LOGS,
+                UserPermission::READ_USERS,
             ], JSON_THROW_ON_ERROR),
             'created_at' => $now,
             'updated_at' => $now,

@@ -6,6 +6,7 @@ use App\Domain\User\Entities\User;
 use App\Domain\User\Entities\UserRole;
 use App\Domain\User\Repositories\UsersRepositoryInterface;
 use App\Infrastructure\Database\Models\UserModel;
+use Illuminate\Support\Collection;
 
 class UsersRepository implements UsersRepositoryInterface
 {
@@ -20,6 +21,20 @@ class UsersRepository implements UsersRepositoryInterface
             return null;
         }
 
+        return $this->mapToEntity($userModel);
+    }
+
+    public function getAll(): Collection
+    {
+        $userModels = UserModel::query()
+            ->with(['role'])
+            ->get();
+
+        return $userModels->map([$this, 'mapToEntity']);
+    }
+
+    public function mapToEntity(UserModel $userModel): User
+    {
         $userRole = null;
 
         if ($userModel->role) {

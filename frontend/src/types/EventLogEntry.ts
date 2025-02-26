@@ -24,6 +24,11 @@ export enum BookingStatusEnum {
   EXPIRED = 'expired', // Истекло (не подтверждено вовремя)
 }
 
+export enum EventEntityTypeEnum {
+  USER = 'user',
+  BOOKING = 'booking',
+}
+
 export class BookingEventLogData {
   room_id: number;
   room_number: string;
@@ -77,26 +82,23 @@ export default class EventLogEntry {
   type: EventType;
   date: Date;
   data: EventTypeData;
-  hotel_id: number | null;
-  booking_id: number | null;
-  user_id: number | null;
+  entity_type: EventEntityTypeEnum | null;
+  entity_id: number | null;
 
   constructor(
     id: number,
     type: EventType,
     date: Date,
     data: EventTypeData,
-    hotel_id: number | null,
-    booking_id: number | null,
-    user_id: number | null,
+    entity_type: EventEntityTypeEnum | null, 
+    entity_id: number | null,
   ) {
     this.id = id;
     this.type = type;
     this.date = date;
     this.data = data;
-    this.hotel_id = hotel_id;
-    this.booking_id = booking_id;
-    this.user_id = user_id;
+    this.entity_type = entity_type;
+    this.entity_id = entity_id;
   }
 
   static fromResponse(responseData: EventLogEntryResponse) {
@@ -121,9 +123,8 @@ export default class EventLogEntry {
       dataType,
       parseISO(responseData.date),
       data,
-      responseData.hotel_id,
-      responseData.booking_id,
-      responseData.user_id,
+      responseData.entity_type as EventEntityTypeEnum,
+      responseData.entity_id,
     );
   }
 }

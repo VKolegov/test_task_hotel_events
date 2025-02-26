@@ -3,9 +3,8 @@ export interface EventLogEntryResponse {
   type: string;
   date: string;
   data: AuthEventLogDataResponse | BookingEventLogDataResponse;
-  hotel_id: number | null;
-  booking_id: number | null;
-  user_id: number | null;
+  entity_type: string | null;
+  entity_id: number | null
 }
 
 export interface AuthEventLogDataResponse {

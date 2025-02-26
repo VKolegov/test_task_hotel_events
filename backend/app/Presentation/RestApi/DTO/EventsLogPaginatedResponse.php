@@ -9,15 +9,14 @@ class EventsLogPaginatedResponse extends AbstractPaginatedResponse
 
     public function serializeEntities(): array
     {
-        return $this->entities->map(static function (EventLogEntry $entity) {
+        return $this->entities->map(static function (EventLogEntry $logEntry) {
             return [
-                'id' => $entity->id,
-                'type' => $entity->type->value,
-                'date' => $entity->date->jsonSerialize(),
-                'data' => $entity->rawData,
-                'hotel_id' => $entity->hotelId,
-                'user_id' => $entity->userId,
-                'booking_id' => $entity->bookingId,
+                'id' => $logEntry->id,
+                'type' => $logEntry->type->value,
+                'date' => $logEntry->date->jsonSerialize(),
+                'data' => $logEntry->rawData,
+                'entity_type' => $logEntry->entityType,
+                'entity_id' => $logEntry->entityId,
             ];
         })->toArray();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Domain\EventLog;
 
+use App\Domain\EventLog\Enums\EventLogEntityType;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use Carbon\Carbon;
 
@@ -13,9 +14,8 @@ class EventLogFilter
     /** @var EventLogTypeEnum[]|null */
     public ?array $types = null;
 
-    /** @var int[] */
-    public ?array $usersId = null;
-
+    /** @var array<EventLogEntityType, int[]> */
+    public array $entities = [];
 
     public function setDateStart(?Carbon $dateStart): EventLogFilter
     {
@@ -45,11 +45,11 @@ class EventLogFilter
     }
 
     /**
-     * @param int[]|null $usersId
+     * @param int[] $ids
      */
-    public function setUsersId(?array $usersId): EventLogFilter
+    public function addFilterByEntity(EventLogEntityType $type, array $ids): self
     {
-        $this->usersId = $usersId;
+        $this->entities[$type->value] = $ids;
         return $this;
     }
 

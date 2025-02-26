@@ -13,9 +13,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $type
  * @property Carbon $date
- * @property int|null $hotel_id
- * @property int|null $booking_id
- * @property int $user_id
+ * @property string|null $entity_type
+ * @property int|null $entity_id
  * @property array $data
  * @mixin \Eloquent
  */

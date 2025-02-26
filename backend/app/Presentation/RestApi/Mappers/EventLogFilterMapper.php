@@ -2,6 +2,7 @@
 
 namespace App\Presentation\RestApi\Mappers;
 
+use App\Domain\EventLog\Enums\EventLogEntityType;
 use App\Domain\EventLog\EventLogFilter;
 use App\Presentation\RestApi\Requests\GetEventLogsRequest;
 
@@ -9,7 +10,7 @@ class EventLogFilterMapper
 {
     public static function filterFromRequest(GetEventLogsRequest $request): EventLogFilter
     {
-        return (new EventLogFilter())
+        $filter = (new EventLogFilter())
             ->setDateStart(
                 $request->date('date_start')
             )
@@ -18,9 +19,12 @@ class EventLogFilterMapper
             )
             ->setTypes(
                 $request->array('type'),
-            )
-            ->setUsersId(
-                $request->array('user_id')
             );
+
+        if ($request->has('user_id')) {
+          $filter->addFilterByEntity(EventLogEntityType::USER, $request->array('user_id'));
+        }
+
+        return $filter;
     }
 }

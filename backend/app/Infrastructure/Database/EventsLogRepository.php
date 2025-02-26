@@ -4,6 +4,7 @@ namespace App\Infrastructure\Database;
 
 use App\Domain\Common\DTO\PaginatedEntities;
 use App\Domain\EventLog\Entities\EventLogEntry;
+use App\Domain\EventLog\Enums\EventLogEntityType;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Domain\EventLog\EventLogFilter;
 use App\Domain\EventLog\Repositories\EventLogsRepositoryInterface;
@@ -36,9 +37,8 @@ class EventsLogRepository implements EventLogsRepositoryInterface
                     EventLogTypeEnum::from($model->type),
                     $model->date,
                     $model->data,
-                    $model->hotel_id,
-                    $model->user_id,
-                    $model->booking_id,
+                    $model->entity_type ? EventLogEntityType::from($model->entity_type) : null,
+                    $model->entity_id,
                 );
             });
 
@@ -53,10 +53,6 @@ class EventsLogRepository implements EventLogsRepositoryInterface
 
     private function applyFilter(Builder $query, EventLogFilter $filter): Builder
     {
-        if ($filter->usersId) {
-            $query->whereIn('user_id', $filter->usersId);
-        }
-
         if ($filter->dateStart) {
             $query->where('date', '>=', $filter->dateStart);
         }
@@ -67,6 +63,17 @@ class EventsLogRepository implements EventLogsRepositoryInterface
 
         if ($filter->types) {
             $query->whereIn('type', $filter->types);
+        }
+
+        if ($filter->entities) {
+            $query->where(static function (Builder $q) use ($filter) {
+                foreach ($filter->entities as $entityType => $entitiesId) {
+                    $q->orWhere(static function (Builder $q) use ($entityType, $entitiesId) {
+                        $q->where('entity_type', $entityType);
+                        $q->whereIn('entity_id', $entitiesId);
+                    });
+                }
+            });
         }
 
         return $query;

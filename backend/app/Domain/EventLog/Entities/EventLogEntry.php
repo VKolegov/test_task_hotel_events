@@ -2,6 +2,7 @@
 
 namespace App\Domain\EventLog\Entities;
 
+use App\Domain\EventLog\Enums\EventLogEntityType;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use Carbon\Carbon;
 
@@ -15,9 +16,8 @@ readonly final class EventLogEntry
         public EventLogTypeEnum $type,
         public Carbon $date,
         public ?array $rawData,
-        public ?int $hotelId,
-        public ?int $userId,
-        public ?int $bookingId,
+        public ?EventLogEntityType $entityType,
+        public ?int $entityId,
     ) {
     }
 

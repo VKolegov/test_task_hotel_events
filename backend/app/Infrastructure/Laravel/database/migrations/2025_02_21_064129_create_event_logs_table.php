@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('type', 64);
             $table->timestamp('date');
-            $table->unsignedBigInteger('hotel_id')->nullable();
-            $table->unsignedBigInteger('booking_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('entity_type', 64)->nullable();
+            $table->unsignedBigInteger('entity_id')->nullable();
 
             $table->jsonb('data')->default("{}");
 
-            $table->index('booking_id');
-            $table->index('user_id');
+            $table->index(['entity_type', 'entity_id'], 'event_logs_entity_type_and_id');
         });
 
         \DB::statement('CREATE INDEX brin_events_date ON event_logs USING BRIN (date)');

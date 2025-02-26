@@ -6,6 +6,7 @@ use App\Domain\EventLog\Entities\AuthEventLogData;
 use App\Domain\EventLog\Entities\BookingEventGuestInfo;
 use App\Domain\EventLog\Entities\BookingEventLogData;
 use App\Domain\EventLog\Enums\EventLogTypeEnum;
+use App\Domain\EventLog\Enums\EventLogEntityType;
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use App\Domain\User\Entities\UserPermission;
 use App\Infrastructure\Database\Models\BookingGuestPivot;
@@ -59,7 +60,8 @@ class DatabaseSeeder extends Seeder
                 fake()->numberBetween(1, 10)
             )->create([
                 'type' => EventLogTypeEnum::AUTHENTICATION,
-                'user_id' => $user->id,
+                'entity_type' => EventLogEntityType::USER,
+                'entity_id' => $user->id,
                 'data' => static fn() => (new AuthEventLogData(
                     fake()->ipv4(),
                     fake()->userAgent(),
@@ -142,10 +144,9 @@ class DatabaseSeeder extends Seeder
 
                 $eventsData[] = EventLogEntryModel::factory()->raw([
                     'date' => $booking->created_at,
-                    'booking_id' => $booking->id,
-                    'hotel_id' => $booking->hotel_id,
                     'type' => EventLogTypeEnum::BOOKING,
-                    'user_id' => $booking->user_id,
+                    'entity_type' => EventLogEntityType::BOOKING,
+                    'entity_id' => $booking->id,
                     'data' => json_encode($logData->toArray(), JSON_UNESCAPED_UNICODE),
                 ]);
             }

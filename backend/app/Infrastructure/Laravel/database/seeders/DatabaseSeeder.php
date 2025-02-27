@@ -59,11 +59,12 @@ class DatabaseSeeder extends Seeder
 
         foreach ($users as $user) {
             EventLogEntryModel::factory(
-                fake()->numberBetween(1, 10)
+                fake()->numberBetween(1, 50)
             )->create([
                 'type' => EventLogTypeEnum::AUTHENTICATION,
                 'entity_type' => EventLogEntityType::USER,
                 'entity_id' => $user->id,
+                'date' => static fn() => fake()->dateTimeBetween('-3 months', 'now'),
                 'data' => static fn() => (new AuthEventLogData(
                     fake()->ipv4(),
                     fake()->userAgent(),

@@ -13,18 +13,26 @@ class BookingFactory extends Factory
 
     public function definition()
     {
-        $createdAt = CarbonImmutable::parse($this->faker->dateTimeBetween('-3 months', '-2 months'));
+        $createdAt = CarbonImmutable::parse($this->faker->dateTimeBetween('-3 months', 'now'));
 
-        $checkOut = CarbonImmutable::parse($this->faker->dateTimeBetween('-10 days', '+14 days'));
-        $checkIn = $checkOut->subDays(
-            $this->faker->numberBetween(1, 14)
+        $days = $this->faker->numberBetween(1, 14);
+
+        $checkIn = $createdAt->addDays(
+            $this->faker->numberBetween(3, 100)
         );
+
+        $checkOut = $checkIn->addDays(
+            $days
+        );
+
+        $price = $this->faker->randomFloat(2000, 50000);
+
 
         return [
             'created_at' => $createdAt,
             'check_in' => $checkIn->format('Y-m-d'),
             'check_out' => $checkOut->format('Y-m-d'),
-            'price' => $this->faker->randomFloat(2, 10000, 3000000),
+            'price' => $price * $days,
             'status' => $this->faker->randomElement(BookingStatusEnum::cases())->value,
         ];
     }

@@ -1,3 +1,5 @@
+import { formatISO } from 'date-fns';
+
 import HttpError from './http_error.ts';
 
 export const baseURL = import.meta.env.VITE_API_URL || 'http://localhost';
@@ -8,7 +10,7 @@ const basicHeaders = {
 };
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-type RequestParamType = object | string | number | Array<RequestParamType> | null;
+type RequestParamType = object | string | number | Date | Array<RequestParamType> | null;
 
 export async function makeRequest(
   method: HttpMethod,
@@ -58,6 +60,8 @@ function buildQueryString(data: Record<string, RequestParamType>): string {
   for (const [k, v] of Object.entries(data)) {
     if (Array.isArray(v)) {
       v.forEach((el) => queryStringBuilder.append(`${k}[]`, el));
+    } else if (v instanceof Date) {
+      queryStringBuilder.append(k, formatISO(v));
     } else if (v !== null && v !== undefined) {
       queryStringBuilder.append(k, v.toString());
     }

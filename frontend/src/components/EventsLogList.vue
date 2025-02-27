@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { parseISO } from 'date-fns';
 import { QDate, QInput, QSelect, QTable, type QTableProps, useQuasar } from 'quasar';
-import { type ComputedRef, type Ref, computed, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { fetchEventsLog } from '@/api/event_logs';
 import HttpError from '@/api/http_error';
@@ -13,9 +13,10 @@ import EventLogEntry, { type EventLogData } from '@/types/EventLogEntry';
 import type EventLogsFilter from '@/types/EventLogsFilter';
 import type { User } from '@/types/User';
 
-type Pagination = Required<QTableProps['pagination']>;
+type TableProps = Required<QTableProps>;
+type Pagination = Required<TableProps['pagination']>;
 
-const pagination: Ref<Pagination> = ref({
+const pagination = ref<Pagination>({
   sortBy: 'date',
   descending: true,
   page: 1,
@@ -24,7 +25,17 @@ const pagination: Ref<Pagination> = ref({
 });
 
 /** filtering **/
-const dateRange = ref({ from: null, to: null });
+interface DateRangeString {
+  from: string;
+  to: string;
+}
+
+interface DateRange {
+  from: Date;
+  to: Date;
+}
+
+const dateRange = ref<DateRangeString | string | null>(null);
 const dateRangeMask = 'YYYY-MM-DDTHH:mm:ssZ';
 const dateRangeText = computed(() => {
   const date = dateRange.value;
@@ -46,74 +57,67 @@ const dateRangeText = computed(() => {
 
   return null;
 });
-const selectedTypes: Ref<EventType[]> = ref([]);
+const dateRangeActual = computed<DateRange | null>(() => {
+  const val = dateRange.value;
+  if (!val) {
+    return null;
+  }
+
+  if (typeof val === 'string') {
+    const date = parseISO(val);
+    return {
+      from: date,
+      to: date,
+    };
+  }
+
+  return {
+    from: parseISO(val.from),
+    to: parseISO(val.to),
+  };
+});
+const selectedTypes = ref<EventType[]>([]);
 
 const availableTypes = Object.values(EventType);
 function eventTypeTitle(eventType: EventType): string {
   return EventTypeTitle[eventType] ?? eventType;
 }
 
-const dateStart = computed(() => {
-  const val = dateRange.value;
-  if (!val) {
-    return null;
-  }
-
-  if (!val.hasOwnProperty('from')) {
-    return val;
-  }
-
-  if (val.from) {
-    return val.from;
-  }
-
-  return null;
-});
-
-const dateEnd = computed(() => {
-  const val = dateRange.value;
-  if (!val) {
-    return null;
-  }
-
-  if (!val.hasOwnProperty('to')) {
-    return val;
-  }
-
-  if (val.to) {
-    return val.to;
-  }
-
-  return null;
-});
-
 const store = useMainStore();
 
-const selectedUsers: Ref<User[]> = ref([]);
+const selectedUsers = ref<User[]>([]);
 const users = computed(() => store.users);
 
-const tableFilter: ComputedRef<EventLogsFilter> = computed(() => ({
-  type: selectedTypes.value,
-  user_id: selectedUsers.value.map((u) => u.id),
-  date_start: dateStart.value,
-  date_end: dateEnd.value,
-}));
+const tableFilter = computed<EventLogsFilter>(() => {
+  const filter: EventLogsFilter = {};
+
+  if (selectedTypes.value.length > 0) {
+    filter.type = selectedTypes.value;
+  }
+
+  if (selectedUsers.value.length > 0) {
+    filter.user_id = selectedUsers.value.map((u) => u.id);
+  }
+
+  if (dateRangeActual.value) {
+    filter.date_start = dateRangeActual.value.from;
+    filter.date_end = dateRangeActual.value.to;
+  }
+
+  return filter;
+});
 
 watch(tableFilter, () => {
-  loadEventLog(pagination.value?.page, pagination.value?.rowsPerPage);
+  loadEventLog();
 });
 
 const events = ref<EventLogEntry[]>([]);
 
-async function loadEventLog(page: number, pageSize: number) {
+async function loadEventLog() {
   try {
-    const response = await fetchEventsLog(
-      page,
-      pageSize,
-      tableFilter.value,
-      pagination.value?.sortBy,
-      pagination.value?.descending,
-    );
+    const { page, rowsPerPage: pageSize, sortBy, descending } = pagination.value;
+
+    const response = await fetchEventsLog(page, pageSize, tableFilter.value, sortBy, descending);
 
     const logEntries = response.entities.map((entity) => EventLogEntry.fromResponse(entity));
 
@@ -121,8 +125,6 @@ async function loadEventLog(page: number, pageSize: number) {
 
     pagination.value = {
       ...pagination.value,
-      page: page,
-      rowsPerPage: pageSize,
       rowsNumber: response.total_count,
     };
   } catch (e) {
@@ -164,12 +166,18 @@ const columns: QTableProps['columns'] = [
 
 const rowsPerPageOptions = [8, 16, 32, 64];
 
-loadEventLog(pagination.value.page, pagination.value.rowsPerPage);
+loadEventLog();
 
 const onRequest: QTableProps['onRequest'] = (r) => {
-  loadEventLog(r.pagination.page, r.pagination.rowsPerPage);
-  pagination.value.sortBy = r.pagination.sortBy;
-  pagination.value.descending = r.pagination.descending;
+  pagination.value = {
+    ...pagination.value,
+    page: r.pagination.page,
+    rowsPerPage: r.pagination.rowsPerPage,
+    sortBy: r.pagination.sortBy,
+    descending: r.pagination.descending,
+  };
+
+  loadEventLog();
 };
 
 const qDialog = useQuasar();
@@ -220,21 +228,21 @@ function onClick(_: Event, e: EventLogEntry) {
         </q-icon>
       </template>
     </q-input>
-    <QSelect
+    <q-select
       v-model="selectedTypes"
       label="Тип события"
       :options="availableTypes"
       :option-label="eventTypeTitle"
       multiple
     />
-    <QSelect
+    <q-select
       v-model="selectedUsers"
       label="Пользователь системы"
       :options="users"
       option-label="name"
       multiple
     />
-    <QTable
+    <q-table
       v-model:pagination="pagination"
       :columns="columns"
       :rows="events"

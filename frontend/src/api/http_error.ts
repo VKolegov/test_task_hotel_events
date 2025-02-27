@@ -1,7 +1,7 @@
 export default class HttpError extends Error {
   status: number;
   url: string;
-  details: object | null;
+  details: string | null;
   responseBody: string | object | null;
 
   /**
@@ -13,7 +13,7 @@ export default class HttpError extends Error {
     status: number,
     url: string,
     message: string = 'HTTP Error',
-    details: object | null = null,
+    details: string | null = null,
     responseBody: string | object | null = null,
   ) {
     super(message);

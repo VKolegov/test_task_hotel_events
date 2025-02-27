@@ -1,5 +1,6 @@
-import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
+import { type Ref, ref } from 'vue';
+
 import { fetchAllUsers, fetchMe } from '@/api/users';
 import type { User } from '@/types/User';
 

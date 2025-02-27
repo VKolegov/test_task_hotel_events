@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, ref, type Ref, watch } from 'vue';
-import { QTable, QSelect, type QTableProps, QInput, QDate } from 'quasar';
 import { parseISO } from 'date-fns';
+import { QDate, QInput, QSelect, QTable, type QTableProps, useQuasar } from 'quasar';
+import { type ComputedRef, type Ref, computed, ref, watch } from 'vue';
 
-import EventLogEntry from '@/types/EventLogEntry';
-import { EventTypeTitle, EventType } from '@/types/EventLogType';
-import type { User } from '@/types/User';
-import type EventLogsFilter from '@/types/EventLogsFilter';
-
-import HttpError from '@/api/http_error';
 import { fetchEventsLog } from '@/api/event_logs';
+import HttpError from '@/api/http_error';
 import { formatDate, formatDateTime } from '@/helpers/date';
+import { trimStr } from '@/helpers/string';
 import { useMainStore } from '@/stores/main';
+import { EventType, EventTypeTitle } from '@/types/enums/EventLogType';
+import EventLogEntry, { type EventLogData } from '@/types/EventLogEntry';
+import type EventLogsFilter from '@/types/EventLogsFilter';
+import type { User } from '@/types/User';
 
 type Pagination = Required<QTableProps['pagination']>;
 
@@ -112,7 +112,7 @@ async function loadEventLog(page: number, pageSize: number) {
     const logEntries = response.entities.map((entity) => EventLogEntry.fromResponse(entity));
 
     events.value.splice(0, events.value.length, ...logEntries);
-
+    
     pagination.value = {
       ...pagination.value,
       page: page,
@@ -120,7 +120,7 @@ async function loadEventLog(page: number, pageSize: number) {
       rowsNumber: response.total_count,
     };
   } catch (e) {
-    console.error(e.toString(), e);
+    console.error(e);
     if (e instanceof HttpError) {
       alert(`Ошибка при запросе лога событий: ${e.toString()}`);
     }
@@ -132,7 +132,7 @@ const columns: QTableProps['columns'] = [
     name: 'id',
     label: 'ID',
     field: 'id',
-    style: 'width: 30px',
+    classes: 'event-list-row__id',
   },
   {
     name: 'date',
@@ -147,6 +147,13 @@ const columns: QTableProps['columns'] = [
     field: 'type',
     format: (val: EventType) => EventTypeTitle[val],
   },
+  {
+    name: 'info',
+    label: 'Информация на момент события',
+    field: 'data',
+    format: (val: EventLogData) => trimStr(val.toString()),
+    classes: 'event-list-row__info',
+  },
 ];
 
 const rowsPerPageOptions = [8, 16, 32, 64];
@@ -156,6 +163,17 @@ loadEventLog(pagination.value.page, pagination.value.rowsPerPage);
 const onRequest: QTableProps['onRequest'] = (r) => {
   loadEventLog(r.pagination.page, r.pagination.rowsPerPage);
 };
+
+const qDialog = useQuasar();
+function onClick(_: Event, e: EventLogEntry) {
+  const date = formatDateTime(e.date);
+  const type = EventTypeTitle[e.type];
+  qDialog.dialog({
+    title: `Событие '${type}' от ${date}`,
+    message: e.data.toString(),
+    class: 'event-info-dialog__content',
+  });
+}
 </script>
 
 <template>
@@ -214,6 +232,24 @@ const onRequest: QTableProps['onRequest'] = (r) => {
       :rows="events"
       :rows-per-page-options="rowsPerPageOptions"
       @request="onRequest"
+      @row-click="onClick"
     />
   </div>
 </template>
+
+<style>
+.event-list-row__id {
+  width: 30px !important; /* import because of quasar */
+}
+.event-list-row__info {
+  white-space: pre !important; /* import because of quasar */
+}
+.event-info-dialog__content {
+  white-space: pre-line;
+}
+@media screen and (min-width: 980px) {
+  .event-info-dialog__content {
+    width: 780px !important; /* import because of quasar */
+  }
+}
+</style>

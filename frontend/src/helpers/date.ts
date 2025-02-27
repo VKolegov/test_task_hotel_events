@@ -5,5 +5,5 @@ export function formatDate(date: Date): string {
 }
 
 export function formatDateTime(date: Date): string {
-  return format(date, 'dd MMM yy HH:mm', { locale: ru });
+  return format(date, 'dd MMM yyyy HH:mm', { locale: ru });
 }

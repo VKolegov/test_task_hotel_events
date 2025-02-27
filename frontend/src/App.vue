@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { QLayout, QPageContainer } from 'quasar';
 import { RouterView } from 'vue-router';
-import { QLayout } from 'quasar';
+
 import { useMainStore } from './stores/main';
 
 const store = useMainStore();
@@ -10,7 +11,9 @@ store.retrieveAllUsers();
 
 <template>
   <QLayout>
-    <RouterView />
+    <QPageContainer>
+      <RouterView />
+    </QPageContainer>
   </QLayout>
 </template>
 

@@ -1,6 +1,8 @@
-import pluginVue from 'eslint-plugin-vue'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVitest from '@vitest/eslint-plugin'
+import {defineConfigWithVueTs, vueTsConfigs} from '@vue/eslint-config-typescript'
+import pluginImport from 'eslint-plugin-import'
+import pluginVue from 'eslint-plugin-vue'
+
 // import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
@@ -27,4 +29,21 @@ export default defineConfigWithVueTs(
     files: ['src/**/__tests__/*'],
   },
   // skipFormatting,
+  {
+    plugins: { import: pluginImport },
+    rules: {
+      // "sort-imports": ["error", {
+      //   "ignoreCase": false,
+      //   "ignoreDeclarationSort": false,
+      //   "ignoreMemberSort": false,
+      //   "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+      //   "allowSeparatedGroups": false,
+      // }],
+      "import/order": ["error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": {"order": "asc", "caseInsensitive": true}
+      }]
+    }
+  },
 )

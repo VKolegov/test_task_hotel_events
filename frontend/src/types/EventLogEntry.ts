@@ -1,10 +1,24 @@
 import { parseISO } from 'date-fns';
-import { EventType } from './EventLogType';
-import type { BookingEventLogDataResponse, EventLogEntryResponse } from './EventLogEntryResponse';
 
-type EventTypeData = AuthEventLogData;
+import { BookingStatusEnum, BookingStatusTitle } from './enums/BookingStatusEnum';
+import { EventType } from './enums/EventLogType';
+import type { EventEntityTypeEnum } from './EventEntityTypeEnum';
+import type {
+  AuthEventLogDataResponse,
+  BookingEventLogDataResponse,
+  EventLogEntryResponse,
+} from './EventLogEntryResponse';
 
-export class AuthEventLogData {
+import { formatCurrency } from '@/helpers/currency';
+import { formatDateTime } from '@/helpers/date';
+
+type EventTypeData = AuthEventLogData | BookingEventLogData;
+
+export interface EventLogData {
+  toString(): string;
+}
+
+export class AuthEventLogData implements EventLogData {
   ip: string;
   user_agent: string;
 
@@ -12,24 +26,17 @@ export class AuthEventLogData {
     this.ip = ip;
     this.user_agent = user_agent;
   }
+
+  static fromResponse(response: AuthEventLogDataResponse): AuthEventLogData {
+    return new AuthEventLogData(response.ip, response.user_agent);
+  }
+
+  toString(): string {
+    return `IP: ${this.ip}\nUser Agent: ${this.user_agent}`;
+  }
 }
 
-export enum BookingStatusEnum {
-  PENDING = 'pending', // Ожидание подтверждения
-  CONFIRMED = 'confirmed', // Подтверждено
-  CHECKED_IN = 'checked_in', // Гость заселился
-  CHECKED_OUT = 'checked_out', // Гость выселился
-  CANCELLED = 'cancelled', // Отмена бронирования
-  NO_SHOW = 'no_show', // Гость не приехал
-  EXPIRED = 'expired', // Истекло (не подтверждено вовремя)
-}
-
-export enum EventEntityTypeEnum {
-  USER = 'user',
-  BOOKING = 'booking',
-}
-
-export class BookingEventLogData {
+export class BookingEventLogData implements EventLogData {
   room_id: number;
   room_number: string;
   status: BookingStatusEnum;
@@ -66,6 +73,20 @@ export class BookingEventLogData {
       r.guests_info as GuestsInfo[],
       r.price,
     );
+  }
+
+  toString() {
+    const checkIn = formatDateTime(this.check_in);
+    const checkOut = formatDateTime(this.check_out);
+    const status = BookingStatusTitle[this.status];
+    const price = formatCurrency(this.price);
+
+    return `ID комнаты: ${this.room_id}
+    Номер комнаты: ${this.room_number}
+    Статус: ${status}
+    Дата заселения: ${checkIn}
+    Дата выселения: ${checkOut}
+    Цена: ${price}`;
   }
 }
 
@@ -108,7 +129,7 @@ export default class EventLogEntry {
 
     switch (dataType) {
       case EventType.AUTHENTICATION:
-        data = responseData.data as AuthEventLogData;
+        data = AuthEventLogData.fromResponse(responseData.data);
         break;
       case EventType.BOOKING:
         data = BookingEventLogData.fromResponse(responseData.data);

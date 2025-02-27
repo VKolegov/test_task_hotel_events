@@ -1,8 +1,8 @@
 import { parseISO } from 'date-fns';
 
 import { BookingStatusEnum, BookingStatusTitle } from './enums/BookingStatusEnum';
+import type { EventEntityTypeEnum } from './enums/EventEntityTypeEnum';
 import { EventType } from './enums/EventLogType';
-import type { EventEntityTypeEnum } from './EventEntityTypeEnum';
 import type {
   AuthEventLogDataResponse,
   BookingEventLogDataResponse,

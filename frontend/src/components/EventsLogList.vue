@@ -107,12 +107,18 @@ const events = ref<EventLogEntry[]>([]);
 
 async function loadEventLog(page: number, pageSize: number) {
   try {
-    const response = await fetchEventsLog(page, pageSize, tableFilter.value);
+    const response = await fetchEventsLog(
+      page,
+      pageSize,
+      tableFilter.value,
+      pagination.value?.sortBy,
+      pagination.value?.descending,
+    );
 
     const logEntries = response.entities.map((entity) => EventLogEntry.fromResponse(entity));
 
     events.value.splice(0, events.value.length, ...logEntries);
-    
+
     pagination.value = {
       ...pagination.value,
       page: page,
@@ -162,6 +168,8 @@ loadEventLog(pagination.value.page, pagination.value.rowsPerPage);
 
 const onRequest: QTableProps['onRequest'] = (r) => {
   loadEventLog(r.pagination.page, r.pagination.rowsPerPage);
+  pagination.value.sortBy = r.pagination.sortBy;
+  pagination.value.descending = r.pagination.descending;
 };
 
 const qDialog = useQuasar();
@@ -231,6 +239,7 @@ function onClick(_: Event, e: EventLogEntry) {
       :columns="columns"
       :rows="events"
       :rows-per-page-options="rowsPerPageOptions"
+      binary-state-sort
       @request="onRequest"
       @row-click="onClick"
     />

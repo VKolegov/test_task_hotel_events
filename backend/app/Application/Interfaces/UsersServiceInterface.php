@@ -10,7 +10,7 @@ interface UsersServiceInterface
 {
     /**
      * @throws UnauthorizedException
-    */
+     */
     public function getById(User $user, int $id): ?User;
 
     /**

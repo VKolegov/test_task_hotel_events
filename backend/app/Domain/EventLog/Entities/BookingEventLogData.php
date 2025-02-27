@@ -40,7 +40,7 @@ readonly final class BookingEventLogData implements EventLogDataInterface
             static fn(BookingEventGuestInfo $guestInfo) => $guestInfo->toArray(),
             $this->guestsInfo
         );
-        
+
         return [
             'room_id' => $this->roomId,
             'room_number' => $this->roomNumber,

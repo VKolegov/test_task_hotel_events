@@ -4,9 +4,9 @@ use App\Infrastructure\Laravel\Application;
 use App\Infrastructure\Laravel\Providers\AuthServiceProvider;
 use App\Infrastructure\Laravel\Providers\EventsLogServiceProvider;
 use App\Infrastructure\Laravel\Providers\UserServiceProvider;
-
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\HandleCors;
 
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
@@ -20,7 +20,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
-            \Illuminate\Http\Middleware\HandleCors::class
+            HandleCors::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

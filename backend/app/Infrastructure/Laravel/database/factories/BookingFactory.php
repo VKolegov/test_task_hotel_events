@@ -4,6 +4,7 @@ namespace App\Infrastructure\Laravel\database\factories;
 
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use App\Infrastructure\Database\Models\BookingModel;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookingFactory extends Factory
@@ -12,9 +13,9 @@ class BookingFactory extends Factory
 
     public function definition()
     {
-        $createdAt = \Carbon\CarbonImmutable::parse($this->faker->dateTimeBetween('-3 months', '-2 months'));
+        $createdAt = CarbonImmutable::parse($this->faker->dateTimeBetween('-3 months', '-2 months'));
 
-        $checkOut = \Carbon\CarbonImmutable::parse($this->faker->dateTimeBetween('-10 days', '+14 days'));
+        $checkOut = CarbonImmutable::parse($this->faker->dateTimeBetween('-10 days', '+14 days'));
         $checkIn = $checkOut->subDays(
             $this->faker->numberBetween(1, 14)
         );

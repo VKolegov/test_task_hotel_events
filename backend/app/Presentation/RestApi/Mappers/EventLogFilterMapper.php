@@ -22,7 +22,7 @@ class EventLogFilterMapper
             );
 
         if ($request->has('user_id')) {
-          $filter->addFilterByEntity(EventLogEntityType::USER, $request->array('user_id'));
+            $filter->addFilterByEntity(EventLogEntityType::USER, $request->array('user_id'));
         }
 
         return $filter;

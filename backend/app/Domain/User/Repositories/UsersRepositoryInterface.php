@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface UsersRepositoryInterface
 {
     public function getById(int $id): ?User;
+
     /** @returns Collection<User> */
     public function getAll(): Collection;
 }

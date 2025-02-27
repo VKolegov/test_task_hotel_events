@@ -9,6 +9,7 @@ use App\Presentation\RestApi\DTO\UserResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -57,7 +58,7 @@ class UserController extends Controller
                 ['error' => 'Unauthorized'],
                 Response::HTTP_UNAUTHORIZED
             );
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return new JsonResponse([
                 'error' => $exception->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);

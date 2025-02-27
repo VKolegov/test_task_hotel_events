@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use App\Domain\EventLog\Entities\AuthEventLogData;
 use App\Domain\EventLog\Entities\BookingEventGuestInfo;
 use App\Domain\EventLog\Entities\BookingEventLogData;
-use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Domain\EventLog\Enums\EventLogEntityType;
+use App\Domain\EventLog\Enums\EventLogTypeEnum;
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use App\Domain\User\Entities\UserPermission;
 use App\Infrastructure\Database\Models\BookingGuestPivot;
@@ -19,6 +19,7 @@ use App\Infrastructure\Database\Models\UserModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use JsonException;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function run(): void
     {

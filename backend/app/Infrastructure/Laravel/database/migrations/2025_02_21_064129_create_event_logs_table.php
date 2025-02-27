@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,8 +22,7 @@ return new class extends Migration
             $table->index(['entity_type', 'entity_id'], 'event_logs_entity_type_and_id');
         });
 
-        \DB::statement('CREATE INDEX brin_events_date ON event_logs USING BRIN (date)');
-
+        DB::statement('CREATE INDEX brin_events_date ON event_logs USING BRIN (date)');
     }
 
     /**
@@ -32,7 +30,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        \DB::statement('DROP INDEX IF EXISTS brin_events_date');
+        DB::statement('DROP INDEX IF EXISTS brin_events_date');
 
         Schema::dropIfExists('event_logs');
     }

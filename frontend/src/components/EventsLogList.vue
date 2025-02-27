@@ -8,6 +8,7 @@ import HttpError from '@/api/http_error';
 import { formatDate, formatDateTime } from '@/helpers/date';
 import { trimStr } from '@/helpers/string';
 import { useMainStore } from '@/stores/main';
+import { EventEntityTypeTitle, type EventEntityTypeEnum } from '@/types/enums/EventEntityTypeEnum';
 import { EventType, EventTypeTitle } from '@/types/enums/EventLogType';
 import EventLogEntry, { type EventLogData } from '@/types/EventLogEntry';
 import type EventLogsFilter from '@/types/EventLogsFilter';
@@ -154,6 +155,17 @@ const columns: QTableProps['columns'] = [
     label: 'Тип события',
     field: 'type',
     format: (val: EventType) => EventTypeTitle[val],
+  },
+  {
+    name: 'entity_type',
+    label: 'Тип сущности',
+    field: 'entity_type',
+    format: (val: EventEntityTypeEnum) => EventEntityTypeTitle[val],
+  },
+  {
+    name: 'entity_id',
+    label: 'ID сущности',
+    field: 'entity_id',
   },
   {
     name: 'info',

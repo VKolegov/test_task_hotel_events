@@ -26,7 +26,10 @@ class GetEventLogsRequest extends PaginatedRequest
             ],
 
             'user_id' => [Rule::array()],
-            'user_id.*' => [Rule::numeric()->integer()->min(1)]
+            'user_id.*' => [Rule::numeric()->integer()->min(1)],
+
+            'sort_by' => ['string', 'min:1', 'max:16'],
+            'sort_desc' => ['boolean'],
         ];
     }
 }

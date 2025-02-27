@@ -16,7 +16,10 @@ class EventsLogRepository implements EventLogsRepositoryInterface
     public function getPaginated(
         int $pageSize,
         int $page = 1,
-        ?EventLogFilter $filter = null
+        ?EventLogFilter $filter = null,
+        ?string $sortBy = null,
+        bool $desc = false,
+
     ): PaginatedEntities {
         $query = EventLogEntryModel::query();
 
@@ -26,8 +29,11 @@ class EventsLogRepository implements EventLogsRepositoryInterface
 
         $count = $query->count();
 
+        if ($sortBy) {
+            $query->orderBy($sortBy, $desc ? 'desc' : 'asc');
+        }
+
         $entities = $query
-            ->orderBy('date', 'desc')
             ->limit($pageSize)
             ->offset(($page - 1) * $pageSize)
             ->get()

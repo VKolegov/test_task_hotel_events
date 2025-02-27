@@ -3,7 +3,6 @@
 namespace App\Domain\EventLog\Repositories;
 
 use App\Domain\Common\DTO\PaginatedEntities;
-use App\Domain\EventLog\Entities\EventLogEntry;
 use App\Domain\EventLog\EventLogFilter;
 
 interface EventLogsRepositoryInterface
@@ -12,6 +11,8 @@ interface EventLogsRepositoryInterface
     public function getPaginated(
         int $pageSize,
         int $page = 1,
-        ?EventLogFilter $filter = null
+        ?EventLogFilter $filter = null,
+        ?string $sortBy = null,
+        bool $desc = false
     ): PaginatedEntities;
 }

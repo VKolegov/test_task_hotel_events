@@ -10,7 +10,7 @@ import type {
 } from './EventLogEntryResponse';
 
 import { formatCurrency } from '@/helpers/currency';
-import { formatDateTime } from '@/helpers/date';
+import { formatDate, formatDateTime } from '@/helpers/date';
 
 type EventTypeData = AuthEventLogData | BookingEventLogData;
 
@@ -76,8 +76,8 @@ export class BookingEventLogData implements EventLogData {
   }
 
   toString() {
-    const checkIn = formatDateTime(this.check_in);
-    const checkOut = formatDateTime(this.check_out);
+    const checkIn = formatDate(this.check_in);
+    const checkOut = formatDate(this.check_out);
     const status = BookingStatusTitle[this.status];
     const price = formatCurrency(this.price);
 

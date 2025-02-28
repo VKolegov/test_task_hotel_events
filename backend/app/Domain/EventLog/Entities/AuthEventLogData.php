@@ -2,7 +2,7 @@
 
 namespace App\Domain\EventLog\Entities;
 
-readonly final class AuthEventLogData implements EventLogDataInterface
+final readonly class AuthEventLogData implements EventLogDataInterface
 {
     public function __construct(
         public string $ip,

@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 class UsersRepository implements UsersRepositoryInterface
 {
-
     public function getById(int $id): ?User
     {
         $userModel = UserModel::query()

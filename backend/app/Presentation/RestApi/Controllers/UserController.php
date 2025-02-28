@@ -13,7 +13,6 @@ use Throwable;
 
 class UserController extends Controller
 {
-
     private AuthenticationService $authService;
 
     public function __construct(private readonly UsersServiceInterface $service)

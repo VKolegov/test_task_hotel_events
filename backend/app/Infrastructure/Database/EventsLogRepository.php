@@ -19,7 +19,6 @@ class EventsLogRepository implements EventLogsRepositoryInterface
         ?EventLogFilter $filter = null,
         ?string $sortBy = null,
         bool $desc = false,
-
     ): PaginatedEntities {
         $query = EventLogEntryModel::query();
 

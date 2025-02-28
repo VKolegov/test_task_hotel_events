@@ -64,8 +64,8 @@ class DatabaseSeeder extends Seeder
                 'type' => EventLogTypeEnum::AUTHENTICATION,
                 'entity_type' => EventLogEntityType::USER,
                 'entity_id' => $user->id,
-                'date' => static fn() => fake()->dateTimeBetween('-3 months', 'now'),
-                'data' => static fn() => (new AuthEventLogData(
+                'date' => static fn () => fake()->dateTimeBetween('-3 months', 'now'),
+                'data' => static fn () => (new AuthEventLogData(
                     fake()->ipv4(),
                     fake()->userAgent(),
                 ))->toArray()
@@ -101,13 +101,13 @@ class DatabaseSeeder extends Seeder
              */
             $bookings = BookingModel::factory(40)->create([
                 'hotel_id' => $hotel->id,
-                'room_id' => fn() => $rooms->random()->id,
+                'room_id' => fn () => $rooms->random()->id,
             ]);
 
             $userBookings = BookingModel::factory(10)->create([
                 'hotel_id' => $hotel->id,
-                'room_id' => fn() => $rooms->random()->id,
-                'user_id' => fn() => $partOfUsers->random()->id,
+                'room_id' => fn () => $rooms->random()->id,
+                'user_id' => fn () => $partOfUsers->random()->id,
             ]);
 
             $bookings = $bookings->merge($userBookings);

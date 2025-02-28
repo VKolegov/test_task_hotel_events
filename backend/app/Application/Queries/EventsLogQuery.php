@@ -5,7 +5,6 @@ namespace App\Application\Queries;
 use App\Domain\EventLog\EventLogFilter;
 use App\Domain\User\Entities\User;
 
-
 class EventsLogQuery
 {
     public string $sortBy = 'date';

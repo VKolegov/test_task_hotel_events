@@ -6,7 +6,6 @@ use App\Domain\EventLog\Entities\EventLogEntry;
 
 class EventsLogPaginatedResponse extends AbstractPaginatedResponse
 {
-
     public function serializeEntities(): array
     {
         return $this->entities->map(static function (EventLogEntry $logEntry) {

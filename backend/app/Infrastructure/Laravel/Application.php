@@ -12,6 +12,6 @@ class Application extends \Illuminate\Foundation\Application
 
     public function loadEnvironmentFrom($file): Application
     {
-        return parent::loadEnvironmentFrom("/../../../.env");
+        return parent::loadEnvironmentFrom('/../../../.env');
     }
 }

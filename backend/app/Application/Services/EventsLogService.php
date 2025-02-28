@@ -12,7 +12,6 @@ use App\Domain\User\Entities\UserPermission;
 
 class EventsLogService implements EventLogsServiceInterface
 {
-
     public function __construct(
         private readonly EventLogsRepositoryInterface $repo,
         private readonly UserPermissionServiceInterface $permissionService

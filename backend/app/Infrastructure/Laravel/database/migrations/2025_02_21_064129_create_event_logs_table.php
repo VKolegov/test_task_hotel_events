@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('entity_type', 64)->nullable();
             $table->unsignedBigInteger('entity_id')->nullable();
 
-            $table->jsonb('data')->default("{}");
+            $table->jsonb('data')->default('{}');
 
             $table->index(['entity_type', 'entity_id'], 'event_logs_entity_type_and_id');
         });

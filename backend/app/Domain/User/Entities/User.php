@@ -4,7 +4,7 @@ namespace App\Domain\User\Entities;
 
 use Carbon\Carbon;
 
-readonly final class User
+final readonly class User
 {
     public function __construct(
         public int $id,

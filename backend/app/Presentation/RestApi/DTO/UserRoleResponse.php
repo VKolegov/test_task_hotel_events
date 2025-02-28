@@ -7,7 +7,6 @@ use JsonSerializable;
 
 class UserRoleResponse implements JsonSerializable
 {
-
     private int $id;
     private string $name;
     private string $description;

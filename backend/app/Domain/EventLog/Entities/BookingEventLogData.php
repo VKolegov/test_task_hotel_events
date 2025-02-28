@@ -5,9 +5,8 @@ namespace App\Domain\EventLog\Entities;
 use App\Domain\Hotel\Entities\BookingStatusEnum;
 use Carbon\Carbon;
 
-readonly final class BookingEventLogData implements EventLogDataInterface
+final readonly class BookingEventLogData implements EventLogDataInterface
 {
-
     public function __construct(
         public int $roomId,
         public string $roomNumber,
@@ -37,7 +36,7 @@ readonly final class BookingEventLogData implements EventLogDataInterface
     public function toArray(): array
     {
         $guestsInfo = array_map(
-            static fn(BookingEventGuestInfo $guestInfo) => $guestInfo->toArray(),
+            static fn (BookingEventGuestInfo $guestInfo) => $guestInfo->toArray(),
             $this->guestsInfo
         );
 

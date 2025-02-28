@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventLogEntryFactory extends Factory
 {
-
     protected $model = EventLogEntryModel::class;
 
     public function definition()

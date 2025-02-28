@@ -4,7 +4,7 @@ namespace App\Domain\User\Entities;
 
 use Carbon\Carbon;
 
-readonly final class UserRole
+final readonly class UserRole
 {
     public int $id;
     public string $name;
@@ -34,7 +34,7 @@ readonly final class UserRole
         $this->updatedAt = $updatedAt;
         $this->deletedAt = $deletedAt;
         $this->permissions = array_map(
-            static fn($permissionStr) => UserPermission::from($permissionStr),
+            static fn ($permissionStr) => UserPermission::from($permissionStr),
             $permissions
         );
     }

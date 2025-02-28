@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HotelGuestFactory extends Factory
 {
-
     protected $model = HotelGuestModel::class;
 
     public function definition()

@@ -10,14 +10,13 @@ readonly class BookingEventGuestInfo
         public string $phone,
         public string $email,
         public string $documentInfo,
-
     ) {
     }
 
     public static function multipleFromArray(array $data): array
     {
         return array_map(
-            static fn(array $arrayElement) => self::fromArray($arrayElement),
+            static fn (array $arrayElement) => self::fromArray($arrayElement),
             $data
         );
     }

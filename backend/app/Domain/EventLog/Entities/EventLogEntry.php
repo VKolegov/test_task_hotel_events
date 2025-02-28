@@ -9,7 +9,7 @@ use Carbon\Carbon;
 /**
  * @template T of EventLogDataInterface
  */
-readonly final class EventLogEntry
+final readonly class EventLogEntry
 {
     public function __construct(
         public int $id,

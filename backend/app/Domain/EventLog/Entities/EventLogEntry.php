@@ -18,6 +18,7 @@ final readonly class EventLogEntry
         public ?array $rawData,
         public ?EventLogEntityType $entityType,
         public ?int $entityId,
+        public bool $system,
     ) {
     }
 

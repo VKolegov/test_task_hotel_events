@@ -18,6 +18,62 @@ export interface EventLogData {
   toString(): string;
 }
 
+
+export default class EventLogEntry {
+  id: number;
+  type: EventType;
+  date: Date;
+  data: EventTypeData;
+  entity_type: EventEntityTypeEnum | null;
+  entity_id: number | null;
+  system: boolean;
+
+  constructor(
+    id: number,
+    type: EventType,
+    date: Date,
+    data: EventTypeData,
+    entity_type: EventEntityTypeEnum | null,
+    entity_id: number | null,
+    system: boolean,
+  ) {
+    this.id = id;
+    this.type = type;
+    this.date = date;
+    this.data = data;
+    this.entity_type = entity_type;
+    this.entity_id = entity_id;
+  }
+
+  static fromResponse(responseData: EventLogEntryResponse) {
+    const dataType = responseData.type as EventType;
+
+    let data: EventTypeData;
+
+    switch (dataType) {
+      case EventType.AUTHENTICATION:
+        data = AuthEventLogData.fromResponse(responseData.data);
+        break;
+      case EventType.BOOKING:
+        data = BookingEventLogData.fromResponse(responseData.data);
+        break;
+      default:
+        data = responseData.data;
+        break;
+    }
+
+    return new EventLogEntry(
+      responseData.id,
+      dataType,
+      parseISO(responseData.date),
+      data,
+      responseData.entity_type as EventEntityTypeEnum,
+      responseData.entity_id,
+      responseData.system,
+    );
+  }
+}
+
 export class AuthEventLogData implements EventLogData {
   ip: string;
   user_agent: string;
@@ -98,54 +154,3 @@ export interface GuestsInfo {
   document_info: string;
 }
 
-export default class EventLogEntry {
-  id: number;
-  type: EventType;
-  date: Date;
-  data: EventTypeData;
-  entity_type: EventEntityTypeEnum | null;
-  entity_id: number | null;
-
-  constructor(
-    id: number,
-    type: EventType,
-    date: Date,
-    data: EventTypeData,
-    entity_type: EventEntityTypeEnum | null,
-    entity_id: number | null,
-  ) {
-    this.id = id;
-    this.type = type;
-    this.date = date;
-    this.data = data;
-    this.entity_type = entity_type;
-    this.entity_id = entity_id;
-  }
-
-  static fromResponse(responseData: EventLogEntryResponse) {
-    const dataType = responseData.type as EventType;
-
-    let data: EventTypeData;
-
-    switch (dataType) {
-      case EventType.AUTHENTICATION:
-        data = AuthEventLogData.fromResponse(responseData.data);
-        break;
-      case EventType.BOOKING:
-        data = BookingEventLogData.fromResponse(responseData.data);
-        break;
-      default:
-        data = responseData.data;
-        break;
-    }
-
-    return new EventLogEntry(
-      responseData.id,
-      dataType,
-      parseISO(responseData.date),
-      data,
-      responseData.entity_type as EventEntityTypeEnum,
-      responseData.entity_id,
-    );
-  }
-}

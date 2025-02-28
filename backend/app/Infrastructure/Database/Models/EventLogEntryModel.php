@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $entity_type
  * @property int|null $entity_id
  * @property array $data
+ * @property bool $system
  * @mixin \Eloquent
  */
 class EventLogEntryModel extends Model

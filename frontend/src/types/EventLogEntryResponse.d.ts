@@ -5,6 +5,7 @@ export interface EventLogEntryResponse {
   data: AuthEventLogDataResponse | BookingEventLogDataResponse;
   entity_type: string | null;
   entity_id: number | null;
+  system: boolean;
 }
 
 export interface AuthEventLogDataResponse {

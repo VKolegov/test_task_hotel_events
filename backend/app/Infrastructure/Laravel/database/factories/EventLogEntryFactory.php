@@ -17,7 +17,8 @@ class EventLogEntryFactory extends Factory
                 EventLogTypeEnum::cases(),
             ),
             'date' => $this->faker->dateTimeThisMonth(),
-            'data' => []
+            'data' => [],
+            'system' => false,
         ];
     }
 }

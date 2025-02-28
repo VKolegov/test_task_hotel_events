@@ -11,7 +11,7 @@ class PaginatedRequest extends FormRequest
     {
         return [
             'page' => [Rule::numeric()->integer()->min(1)],
-            'page_size' => [Rule::numeric()->integer()->min(10)],
+            'page_size' => [Rule::numeric()->integer()->min(10)->max(100)],
         ];
     }
 }

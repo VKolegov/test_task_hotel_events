@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->timestamp('date');
             $table->string('entity_type', 64)->nullable();
             $table->unsignedBigInteger('entity_id')->nullable();
+            $table->boolean('system');
 
             $table->jsonb('data')->default('{}');
 

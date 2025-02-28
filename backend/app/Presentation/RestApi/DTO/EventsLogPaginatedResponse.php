@@ -16,6 +16,7 @@ class EventsLogPaginatedResponse extends AbstractPaginatedResponse
                 'data' => $logEntry->rawData,
                 'entity_type' => $logEntry->entityType,
                 'entity_id' => $logEntry->entityId,
+                'system' => $logEntry->system,
             ];
         })->toArray();
     }

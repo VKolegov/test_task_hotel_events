@@ -44,6 +44,7 @@ class EventsLogRepository implements EventLogsRepositoryInterface
                     $model->data,
                     $model->entity_type ? EventLogEntityType::from($model->entity_type) : null,
                     $model->entity_id,
+                    $model->system,
                 );
             });
 
